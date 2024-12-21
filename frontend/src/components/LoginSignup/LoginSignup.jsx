@@ -6,7 +6,7 @@ import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 import surname_icon from '../Assets/surname.png';
 
-const LoginSignup = () => {
+const LoginSignup = ({ onLogin }) => {
   const [action, setAction] = useState("Login");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,7 +25,6 @@ const LoginSignup = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Registracija korisnika
   const handleRegister = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/users/register", {
@@ -44,6 +43,8 @@ const LoginSignup = () => {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user)); // Spremanje korisničkih podataka
         setSuccess(data.message);
         setError(null);
         setFormData({
@@ -62,7 +63,6 @@ const LoginSignup = () => {
     }
   };
 
-  // Prijava korisnika
   const handleLogin = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/users/login", {
@@ -75,14 +75,17 @@ const LoginSignup = () => {
           password: formData.password,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
+        console.log('Login response data:', data); // Debug informacije
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user)); // Spremanje korisničkih podataka
         setSuccess("Logged in successfully!");
         setError(null);
-        navigate("/home");  // Preusmjeravanje na Home nakon uspješne prijave
+        onLogin(data.user.role);  // Call onLogin with the user's role
+        navigate("/home");  // Redirect to Home after successful login
       } else {
         setError(data.message || "An error occurred");
       }
@@ -90,6 +93,8 @@ const LoginSignup = () => {
       setError("Something went wrong!");
     }
   };
+  
+
 
   return (
     <div className="container">
