@@ -5,6 +5,7 @@ const Profile = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -14,6 +15,9 @@ const Profile = () => {
       setFirstName(first);
       setLastName(last);
       setEmail(user.email);
+      if (user.profileImage) {
+        setProfileImage(user.profileImage);
+      }
     }
   }, []);
 
@@ -21,9 +25,20 @@ const Profile = () => {
     setIsEditing(true);
   };
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = (event) => {
     event.preventDefault();
-    const updatedUser = { name: `${firstName} ${lastName}`, email };
+    const updatedUser = { name: `${firstName} ${lastName}`, email, profileImage };
     localStorage.setItem("user", JSON.stringify(updatedUser));
     setIsEditing(false);
   };
@@ -31,7 +46,7 @@ const Profile = () => {
   return (
     <div className="profile-section">
       <div className="display-section">
-        <img src="profile-placeholder.png" alt="Profile" width="100" />
+        <img src={profileImage || "profile-placeholder.png"} alt="Profile" width="100" />
         <div className="profile-details">
           <div>
             <label>Ime:</label>
@@ -79,6 +94,15 @@ const Profile = () => {
                 id="email-form" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
+              />
+            </div>
+            <div>
+              <label htmlFor="profile-image-form">Slika profila:</label>
+              <input 
+                type="file" 
+                id="profile-image-form" 
+                accept="image/*" 
+                onChange={handleImageUpload} 
               />
             </div>
             <button type="submit">Spremi promjene</button>
