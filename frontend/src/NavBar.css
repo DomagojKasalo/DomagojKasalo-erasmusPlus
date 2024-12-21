@@ -1,17 +1,33 @@
 .navbar {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
+    background-color: #333;
+    overflow: hidden;
+    position: fixed; /* Fiksirano na vrhu */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center;
-    padding: 10px;
+    justify-content: space-around;
+}
+
+.navbar li {
+    display: inline;
 }
 
 .navbar a {
-    margin: 0 10px;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
     text-decoration: none;
-    color: #333;
 }
 
 .navbar a:hover {
-    text-decoration: underline;
+    background-color: #ddd;
+    color: black;
 }

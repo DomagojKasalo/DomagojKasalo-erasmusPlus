@@ -55,6 +55,7 @@ const LoginSignup = ({ onLogin }) => {
           role: "",
         });
         setAction("Login");
+        onLogin(); // Pozivanje onLogin nakon uspješne registracije
       } else {
         setError(data.message || "An error occurred");
       }
@@ -75,16 +76,15 @@ const LoginSignup = ({ onLogin }) => {
           password: formData.password,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        console.log('Login response data:', data); // Debug informacije
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user)); // Spremanje korisničkih podataka
         setSuccess("Logged in successfully!");
         setError(null);
-        onLogin(data.user.role);  // Call onLogin with the user's role
+        onLogin(); // Pozivanje onLogin nakon uspješne prijave
         navigate("/home");  // Redirect to Home after successful login
       } else {
         setError(data.message || "An error occurred");
@@ -93,8 +93,6 @@ const LoginSignup = ({ onLogin }) => {
       setError("Something went wrong!");
     }
   };
-  
-
 
   return (
     <div className="container">
