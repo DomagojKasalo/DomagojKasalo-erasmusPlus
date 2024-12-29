@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './LoginSignup.css';  // Make sure you have your styles for login and signup
+import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
@@ -12,8 +12,9 @@ const LoginSignup = ({ onLogin }) => {
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
+    lozinka: "",
     role: "",
+    gender: "",
   });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -33,10 +34,12 @@ const LoginSignup = ({ onLogin }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`,
+          ime: formData.firstName,
+          prezime: formData.lastName,
           email: formData.email,
-          password: formData.password,
-          role: formData.role,
+          lozinka: formData.lozinka,
+          spol: formData.gender,
+          uloga: formData.role,
         }),
       });
 
@@ -44,15 +47,17 @@ const LoginSignup = ({ onLogin }) => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user)); // Spremanje korisničkih podataka
+        localStorage.setItem("user", JSON.stringify(data.korisnik)); // Spremanje korisničkih podataka
+        console.log('User data saved to localStorage:', data.korisnik);
         setSuccess(data.message);
         setError(null);
         setFormData({
           firstName: "",
           lastName: "",
           email: "",
-          password: "",
+          lozinka: "",
           role: "",
+          gender: "",
         });
         setAction("Login");
         onLogin(); // Pozivanje onLogin nakon uspješne registracije
@@ -73,19 +78,25 @@ const LoginSignup = ({ onLogin }) => {
         },
         body: JSON.stringify({
           email: formData.email,
-          password: formData.password,
+          lozinka: formData.lozinka,
         }),
       });
 
-      const data = await response.json();
+      let data = await response.text();
+      try {
+        data = JSON.parse(data);
+      } catch (error) {
+        data = { message: "Invalid JSON response" };
+      }
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user)); // Spremanje korisničkih podataka
+        localStorage.setItem("user", JSON.stringify(data.korisnik)); // Spremanje korisničkih podataka
+        console.log('User data saved to localStorage:', data.korisnik);
         setSuccess("Logged in successfully!");
         setError(null);
         onLogin(); // Pozivanje onLogin nakon uspješne prijave
-        navigate("/home");  // Redirect to Home after successful login
+        navigate("/profile");  // Preusmjeravanje na Profile nakon uspješne prijave
       } else {
         setError(data.message || "An error occurred");
       }
@@ -123,6 +134,16 @@ const LoginSignup = ({ onLogin }) => {
                 onChange={handleInputChange}
               />
             </div>
+            <div className="input">
+              <img src={user_icon} alt="" />
+              <input
+                type="text"
+                placeholder="Gender (M/Ž)"
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+              />
+            </div>
           </>
         )}
         <div className="input">
@@ -140,8 +161,8 @@ const LoginSignup = ({ onLogin }) => {
           <input
             type="password"
             placeholder="Password"
-            name="password"
-            value={formData.password}
+            name="lozinka"
+            value={formData.lozinka}
             onChange={handleInputChange}
           />
         </div>
@@ -162,19 +183,21 @@ const LoginSignup = ({ onLogin }) => {
       {error && <div className="error">{error}</div>}
       {success && <div className="success">{success}</div>}
 
-      <div className="submit-cointainer">
-        {action === "Login" && (
-          <>
-            <div className="submit" onClick={() => setAction("Sign Up")}>Sign Up</div>
-            <div className="submit" onClick={handleLogin}>Login</div>
-          </>
-        )}
-        {action === "Sign Up" && (
-          <>
-            <div className="submit" onClick={handleRegister}>Sign Up</div>
-            <div className="submit gray" onClick={() => setAction("Login")}>Back to Login</div>
-          </>
-        )}
+      <div className="submit-container">
+        <div className="submit-inline">
+          {action === "Login" && (
+            <>
+              <div className="submit" onClick={() => setAction("Sign Up")}>Sign Up</div>
+              <div className="submit" onClick={handleLogin}>Login</div>
+            </>
+          )}
+          {action === "Sign Up" && (
+            <>
+              <div className="submit" onClick={handleRegister}>Sign Up</div>
+              <div className="submit gray" onClick={() => setAction("Login")}>Back to Login</div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

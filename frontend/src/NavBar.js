@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 
-const NavBar = () => {
+const NavBar = ({ handleLogout }) => {
+  const navigate = useNavigate();
+
+  const onLogoutClick = () => {
+    handleLogout();
+    navigate('/'); // Preusmjeravanje na početnu stranicu nakon odjave
+  };
+
   return (
     <nav className="navbar">
       <ul>
@@ -13,7 +20,7 @@ const NavBar = () => {
           <Link to="/profile">Moj Profil</Link>
         </li>
         <li>
-          <Link to="/odjava">Odjava</Link>
+          <button onClick={onLogoutClick}>Odjava</button>
         </li>
       </ul>
     </nav>
