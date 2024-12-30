@@ -5,20 +5,21 @@ const Profile = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log("Fetched user from localStorage:", user);
+    // Dohvati korisničke podatke iz localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('Fetched user from localStorage:', user);
 
     if (user) {
-      setFirstName(user.ime || "Nema"); // Koristi 'ime' umjesto 'firstName'
-      setLastName(user.prezime || "Nema prezimena"); // Koristi 'prezime' umjesto 'lastName'
-      setEmail(user.email || "Nema emaila");
-      setProfileImage(user.profileImage || "profile-placeholder.png");
+      setFirstName(user.ime || 'Nema'); // Koristi 'ime' umjesto 'firstName'
+      setLastName(user.prezime || 'Nema prezimena'); // Koristi 'prezime' umjesto 'lastName'
+      setEmail(user.email || 'Nema emaila');
+      setProfileImage(user.profileImage || 'profile-placeholder.png');
     }
-  }, [isEditing]);
+  }, []);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -28,7 +29,7 @@ const Profile = () => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setProfileImage(reader.result);
+      setProfileImage(reader.result); // Postavljanje nove slike u stanje
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -37,16 +38,19 @@ const Profile = () => {
 
   const handleSave = (event) => {
     event.preventDefault();
-    const updatedUser = { ime: firstName, prezime: lastName, email, profileImage }; // Koristi 'ime' i 'prezime'
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    console.log("User saved to localStorage:", updatedUser);
+
+    // Ažuriranje podataka korisnika
+    const updatedUser = { ime: firstName, prezime: lastName, email, profileImage };
+    localStorage.setItem('user', JSON.stringify(updatedUser)); // Pohrana novih podataka u localStorage
+
+    console.log('User saved to localStorage:', updatedUser);
     setIsEditing(false);
   };
 
   return (
     <div className="profile-section">
       <div className="display-section">
-        <img src={profileImage || "profile-placeholder.png"} alt="Profile" width="100" />
+        <img src={profileImage || 'profile-placeholder.png'} alt="Profile" width="100" />
         <div className="profile-details">
           <div>
             <label>Ime:</label>
@@ -71,38 +75,38 @@ const Profile = () => {
           <form className="edit-form" onSubmit={handleSave}>
             <div>
               <label htmlFor="first-name-form">Ime:</label>
-              <input 
-                type="text" 
-                id="first-name-form" 
-                value={firstName} 
-                onChange={(e) => setFirstName(e.target.value)} 
+              <input
+                type="text"
+                id="first-name-form"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
             <div>
               <label htmlFor="last-name-form">Prezime:</label>
-              <input 
-                type="text" 
-                id="last-name-form" 
-                value={lastName} 
-                onChange={(e) => setLastName(e.target.value)} 
+              <input
+                type="text"
+                id="last-name-form"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </div>
             <div>
               <label htmlFor="email-form">E-mail:</label>
-              <input 
-                type="email" 
-                id="email-form" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
+              <input
+                type="email"
+                id="email-form"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
               <label htmlFor="profile-image-form">Slika profila:</label>
-              <input 
-                type="file" 
-                id="profile-image-form" 
-                accept="image/*" 
-                onChange={handleImageUpload} 
+              <input
+                type="file"
+                id="profile-image-form"
+                accept="image/*"
+                onChange={handleImageUpload}
               />
             </div>
             <button type="submit">Spremi promjene</button>
@@ -111,6 +115,6 @@ const Profile = () => {
       )}
     </div>
   );
-}
+};
 
 export default Profile;
