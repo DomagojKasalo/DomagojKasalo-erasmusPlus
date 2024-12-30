@@ -12,15 +12,16 @@ const NavBar = ({ handleLogout }) => {
 
   return (
     <nav className="navbar">
-      <ul>
+      <div className="navbar-title">Erasmus</div> {/* Naslov bez linka */}
+      <ul className="navbar-links">
         <li>
-          <Link to="/home">Početna</Link>
+          <Link to="/competitions">Svi natječaji</Link> {/* Provjerimo putanju */}
         </li>
         <li>
           <Link to="/profile">Moj Profil</Link>
         </li>
         <li>
-          <button onClick={onLogoutClick}>Odjava</button>
+          <button onClick={onLogoutClick} className="logout-button">Odjava</button>
         </li>
       </ul>
     </nav>

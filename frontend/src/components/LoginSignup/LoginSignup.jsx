@@ -67,20 +67,21 @@ const LoginSignup = ({ onLogin }) => {
           lozinka: formData.lozinka,
         }),
       });
-
+  
       let data = await response.text();
       try {
         data = JSON.parse(data);
       } catch (error) {
         data = { message: "Invalid JSON response" };
       }
-
+  
       if (response.ok) {
         const user = {
           ime: data.korisnik.ime, // 'ime' sa backend-a
           prezime: data.korisnik.prezime, // 'prezime' sa backend-a
           email: data.korisnik.email,
           profileImage: data.korisnik.profileImage || "profile-placeholder.png",
+          role: data.korisnik.uloga, // Provjerimo da li se pohranjuje uloga (role)
         };
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -96,6 +97,7 @@ const LoginSignup = ({ onLogin }) => {
       setError("Something went wrong!");
     }
   };
+  
 
   return (
     <div className="container">
@@ -168,6 +170,7 @@ const LoginSignup = ({ onLogin }) => {
             <option value="" disabled>Choose Role</option>
             <option value="nastavnik">Nastavnik</option>
             <option value="student">Student</option>
+            <option value="admin">Admin</option>
           </select>
         )}
       </div>
