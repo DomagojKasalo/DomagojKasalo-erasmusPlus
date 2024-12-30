@@ -9,8 +9,8 @@ import surname_icon from '../Assets/surname.png';
 const LoginSignup = ({ onLogin }) => {
   const [action, setAction] = useState("Login");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    ime: "",
+    prezime: "",
     email: "",
     lozinka: "",
     role: "",
@@ -34,8 +34,8 @@ const LoginSignup = ({ onLogin }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ime: formData.firstName,
-          prezime: formData.lastName,
+          ime: formData.ime, // Promijenjeno na 'ime' umjesto 'firstName'
+          prezime: formData.prezime, // Promijenjeno na 'prezime' umjesto 'lastName'
           email: formData.email,
           lozinka: formData.lozinka,
           spol: formData.gender,
@@ -44,23 +44,9 @@ const LoginSignup = ({ onLogin }) => {
       });
 
       const data = await response.json();
-
       if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.korisnik)); // Spremanje korisničkih podataka
-        console.log('User data saved to localStorage:', data.korisnik);
-        setSuccess(data.message);
+        setSuccess("Registration successful!");
         setError(null);
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          lozinka: "",
-          role: "",
-          gender: "",
-        });
-        setAction("Login");
-        onLogin(); // Pozivanje onLogin nakon uspješne registracije
       } else {
         setError(data.message || "An error occurred");
       }
@@ -90,13 +76,19 @@ const LoginSignup = ({ onLogin }) => {
       }
 
       if (response.ok) {
+        const user = {
+          ime: data.korisnik.ime, // 'ime' sa backend-a
+          prezime: data.korisnik.prezime, // 'prezime' sa backend-a
+          email: data.korisnik.email,
+          profileImage: data.korisnik.profileImage || "profile-placeholder.png",
+        };
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.korisnik)); // Spremanje korisničkih podataka
-        console.log('User data saved to localStorage:', data.korisnik);
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log('User data saved to localStorage:', user);
         setSuccess("Logged in successfully!");
         setError(null);
-        onLogin(); // Pozivanje onLogin nakon uspješne prijave
-        navigate("/profile");  // Preusmjeravanje na Profile nakon uspješne prijave
+        onLogin();
+        navigate("/profile");
       } else {
         setError(data.message || "An error occurred");
       }
@@ -118,9 +110,9 @@ const LoginSignup = ({ onLogin }) => {
               <img src={user_icon} alt="" />
               <input
                 type="text"
-                placeholder="First Name"
-                name="firstName"
-                value={formData.firstName}
+                placeholder="Ime"
+                name="ime" // Promijenjeno na 'ime' umjesto 'firstName'
+                value={formData.ime}
                 onChange={handleInputChange}
               />
             </div>
@@ -128,9 +120,9 @@ const LoginSignup = ({ onLogin }) => {
               <img src={surname_icon} alt="" />
               <input
                 type="text"
-                placeholder="Last Name"
-                name="lastName"
-                value={formData.lastName}
+                placeholder="Prezime"
+                name="prezime" // Promijenjeno na 'prezime' umjesto 'lastName'
+                value={formData.prezime}
                 onChange={handleInputChange}
               />
             </div>

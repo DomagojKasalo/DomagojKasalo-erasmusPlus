@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./Profile.css";
+import React, { useState, useEffect } from 'react';
+import './Profile.css';
 
 const Profile = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const fetchedUser = JSON.parse(localStorage.getItem("user"));
-    console.log("Fetched user from localStorage:", fetchedUser);
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log("Fetched user from localStorage:", user);
 
-    if (fetchedUser) {
-      setFirstName(fetchedUser.ime || "");
-      setLastName(fetchedUser.prezime || "");
-      setEmail(fetchedUser.email || "");
-      if (fetchedUser.profileImage) {
-        setProfileImage(fetchedUser.profileImage);
-      }
-      setUser(fetchedUser);
-    } else {
-      console.error("No user data found in localStorage");
+    if (user) {
+      setFirstName(user.ime || "Nema"); // Koristi 'ime' umjesto 'firstName'
+      setLastName(user.prezime || "Nema prezimena"); // Koristi 'prezime' umjesto 'lastName'
+      setEmail(user.email || "Nema emaila");
+      setProfileImage(user.profileImage || "profile-placeholder.png");
     }
-  }, []);
+  }, [isEditing]);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -32,58 +26,21 @@ const Profile = () => {
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSave = async (event) => {
+  const handleSave = (event) => {
     event.preventDefault();
-
-    if (!firstName || !lastName || !email) {
-      alert("Sva polja moraju biti popunjena.");
-      return;
-    }
-
-    if (!user || !user.id) {
-      alert("Korisnik nije pronađen. Molimo, prijavite se ponovno.");
-      return;
-    }
-
-    const updatedUser = {
-      ime: firstName,
-      prezime: lastName,
-      email,
-      profileImage,
-    };
-
-    try {
-      console.log("Šaljem podatke na server:", updatedUser);
-      const response = await fetch(`http://localhost:5000/api/users/update/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("user", JSON.stringify(data.korisnik));
-        console.log("Podaci su uspješno spremljeni u localStorage:", data.korisnik);
-        setIsEditing(false);
-      } else {
-        console.error("Greška pri spremanju korisnika:", data.message);
-        alert(`Greška: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Greška pri komunikaciji s poslužiteljem:", error);
-      alert("Došlo je do pogreške. Pokušajte ponovno kasnije.");
-    }
+    const updatedUser = { ime: firstName, prezime: lastName, email, profileImage }; // Koristi 'ime' i 'prezime'
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    console.log("User saved to localStorage:", updatedUser);
+    setIsEditing(false);
   };
 
   return (
@@ -93,11 +50,11 @@ const Profile = () => {
         <div className="profile-details">
           <div>
             <label>Ime:</label>
-            <span>{firstName}</span>
+            <span>{firstName}</span> {/* Prikazuj 'ime' */}
           </div>
           <div>
             <label>Prezime:</label>
-            <span>{lastName}</span>
+            <span>{lastName}</span> {/* Prikazuj 'prezime' */}
           </div>
           <div>
             <label>Email:</label>
@@ -114,38 +71,38 @@ const Profile = () => {
           <form className="edit-form" onSubmit={handleSave}>
             <div>
               <label htmlFor="first-name-form">Ime:</label>
-              <input
-                type="text"
-                id="first-name-form"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+              <input 
+                type="text" 
+                id="first-name-form" 
+                value={firstName} 
+                onChange={(e) => setFirstName(e.target.value)} 
               />
             </div>
             <div>
               <label htmlFor="last-name-form">Prezime:</label>
-              <input
-                type="text"
-                id="last-name-form"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+              <input 
+                type="text" 
+                id="last-name-form" 
+                value={lastName} 
+                onChange={(e) => setLastName(e.target.value)} 
               />
             </div>
             <div>
               <label htmlFor="email-form">E-mail:</label>
-              <input
-                type="email"
-                id="email-form"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+              <input 
+                type="email" 
+                id="email-form" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
               />
             </div>
             <div>
               <label htmlFor="profile-image-form">Slika profila:</label>
-              <input
-                type="file"
-                id="profile-image-form"
-                accept="image/*"
-                onChange={handleImageUpload}
+              <input 
+                type="file" 
+                id="profile-image-form" 
+                accept="image/*" 
+                onChange={handleImageUpload} 
               />
             </div>
             <button type="submit">Spremi promjene</button>
@@ -154,6 +111,6 @@ const Profile = () => {
       )}
     </div>
   );
-};
+}
 
 export default Profile;
