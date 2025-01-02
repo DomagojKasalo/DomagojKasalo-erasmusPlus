@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Profile.css';
 
 const Profile = () => {
@@ -7,23 +8,31 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Dohvati korisničke podatke iz localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log('Fetched user from localStorage:', user);
+    // Dohvati korisničke podatke s backenda
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/users/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const user = response.data;
+        setFirstName(user.ime || 'Nema');
+        setLastName(user.prezime || 'Nema prezimena');
+        setEmail(user.email || 'Nema emaila');
+        setProfileImage(user.profileImage || 'profile-placeholder.png');
+      } catch (error) {
+        console.error('Greška pri dohvaćanju korisničkog profila:', error);
+      }
+    };
 
-    if (user) {
-      setFirstName(user.ime || 'Nema'); // Koristi 'ime' umjesto 'firstName'
-      setLastName(user.prezime || 'Nema prezimena'); // Koristi 'prezime' umjesto 'lastName'
-      setEmail(user.email || 'Nema emaila');
-      setProfileImage(user.profileImage || 'profile-placeholder.png');
+    if (token) {
+      fetchUserProfile();
     }
-  }, []);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  }, [token]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -36,15 +45,22 @@ const Profile = () => {
     }
   };
 
-  const handleSave = (event) => {
+  const handleSave = async (event) => {
     event.preventDefault();
 
-    // Ažuriranje podataka korisnika
-    const updatedUser = { ime: firstName, prezime: lastName, email, profileImage };
-    localStorage.setItem('user', JSON.stringify(updatedUser)); // Pohrana novih podataka u localStorage
-
-    console.log('User saved to localStorage:', updatedUser);
-    setIsEditing(false);
+    try {
+      // Ažuriranje korisničkih podataka na backendu
+      const updatedUser = { ime: firstName, prezime: lastName, email, profileImage };
+      const response = await axios.put('http://localhost:5000/api/users/me', updatedUser, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Korisnički profil ažuriran:', response.data);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Greška pri ažuriranju korisničkog profila:', error);
+    }
   };
 
   return (
@@ -54,18 +70,18 @@ const Profile = () => {
         <div className="profile-details">
           <div>
             <label>Ime:</label>
-            <span>{firstName}</span> {/* Prikazuj 'ime' */}
+            <span>{firstName}</span>
           </div>
           <div>
             <label>Prezime:</label>
-            <span>{lastName}</span> {/* Prikazuj 'prezime' */}
+            <span>{lastName}</span>
           </div>
           <div>
             <label>Email:</label>
             <span>{email}</span>
           </div>
           <div className="edit-button-container">
-            <button onClick={handleEdit}>Uredi</button>
+            <button onClick={() => setIsEditing(true)}>Uredi</button>
           </div>
         </div>
       </div>
