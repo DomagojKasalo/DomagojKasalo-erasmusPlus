@@ -1,6 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser, logoutUser } = require('../controllers/korisnikController');
+const { protect, restrictTo } = require('../middleware/authMiddleware');
+const {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getMyProfile,
+  updateMyProfile,
+  deleteMyProfile,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+} = require('../controllers/korisnikController');
 const { check, body } = require('express-validator');
 const Sveucilista = require('../models/Sveucilista');
 
@@ -40,5 +51,24 @@ router.post(
 
 // Ruta za odjavu korisnika
 router.post('/logout', logoutUser);
+
+// Ruta za pregled vlastitog profila
+router.get('/me', protect, getMyProfile);
+
+// Ruta za ažuriranje vlastitog profila
+router.put('/me', protect, updateMyProfile);
+
+// Ruta za brisanje vlastitog profila
+router.delete('/me', protect, deleteMyProfile);
+
+// Administratorske rute
+// Ruta za pregled svih korisnika
+router.get('/', protect, restrictTo('admin'), getAllUsers);
+
+// Ruta za ažuriranje korisnika po ID-u
+router.put('/:id', protect, restrictTo('admin'), updateUser);
+
+// Ruta za brisanje korisnika po ID-u
+router.delete('/:id', protect, restrictTo('admin'), deleteUser);
 
 module.exports = router;
