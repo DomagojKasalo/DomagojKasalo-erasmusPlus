@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [firstName, setFirstName] = useState('');
@@ -7,19 +8,20 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
+  // Dohvaćanje korisničkih podataka iz localStorage svaki put kad se komponenta učita
   useEffect(() => {
-    // Dohvati korisničke podatke iz localStorage
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('Fetched user from localStorage:', user);
 
     if (user) {
-      setFirstName(user.ime || 'Nema'); // Koristi 'ime' umjesto 'firstName'
-      setLastName(user.prezime || 'Nema prezimena'); // Koristi 'prezime' umjesto 'lastName'
+      setFirstName(user.ime || 'Nema');
+      setLastName(user.prezime || 'Nema prezimena');
       setEmail(user.email || 'Nema emaila');
       setProfileImage(user.profileImage || 'profile-placeholder.png');
     }
-  }, []);
+  }, []); // Ovo se izvršava samo pri prvom renderiranju komponente
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -36,15 +38,62 @@ const Profile = () => {
     }
   };
 
-  const handleSave = (event) => {
+  const updateProfile = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/users/me', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ime: firstName,
+          prezime: lastName,
+          email,
+          profileImage,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+  
+      const updatedUser = await response.json();
+      localStorage.setItem('user', JSON.stringify(updatedUser)); // Ažuriraj podatke u localStorage
+      console.log('Profile updated successfully:', updatedUser);
+  
+      // Provjera i ažuriranje uloge korisnika ako je potrebno
+      if (updatedUser.role) {
+        localStorage.setItem('user', JSON.stringify(updatedUser)); // Ažuriranje role ako je promijenjena
+      }
+  
+    } catch (error) {
+      console.error('Error updating profile:', error.message);
+    }
+  };
+  
+
+  const handleSave = async (event) => {
     event.preventDefault();
-
-    // Ažuriranje podataka korisnika
-    const updatedUser = { ime: firstName, prezime: lastName, email, profileImage };
-    localStorage.setItem('user', JSON.stringify(updatedUser)); // Pohrana novih podataka u localStorage
-
-    console.log('User saved to localStorage:', updatedUser);
+    await updateProfile(); // Ažuriraj podatke na backendu
     setIsEditing(false);
+
+    // Ovdje odmah pohranjujemo promijenjene podatke u localStorage
+    const updatedUser = {
+      ime: firstName,
+      prezime: lastName,
+      email,
+      profileImage,
+    };
+    localStorage.setItem('user', JSON.stringify(updatedUser)); // Spremanje promjena u localStorage
+  };
+
+  const handleLogout = async () => {
+    await updateProfile(); // Spremi promjene prije odjave
+    localStorage.removeItem('token'); // Ukloni samo token
+    localStorage.removeItem('user'); // Ukloni korisničke podatke iz localStorage
+    navigate('/login'); // Preusmjeri na stranicu za prijavu
   };
 
   return (
@@ -54,11 +103,11 @@ const Profile = () => {
         <div className="profile-details">
           <div>
             <label>Ime:</label>
-            <span>{firstName}</span> {/* Prikazuj 'ime' */}
+            <span>{firstName}</span>
           </div>
           <div>
             <label>Prezime:</label>
-            <span>{lastName}</span> {/* Prikazuj 'prezime' */}
+            <span>{lastName}</span>
           </div>
           <div>
             <label>Email:</label>
@@ -110,6 +159,9 @@ const Profile = () => {
               />
             </div>
             <button type="submit">Spremi promjene</button>
+            <button type="button" onClick={handleLogout} className="logout-button">
+              Odjava
+            </button>
           </form>
         </div>
       )}

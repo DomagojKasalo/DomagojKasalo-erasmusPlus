@@ -24,10 +24,12 @@ const Competition = () => {
 
     fetchCompetitions();
 
-    // Provjera je li korisnik admin
+    // Provjera je li korisnik admin - svaki put kada se komponenta učita
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.role === 'admin') {
       setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
     }
   }, []); // Ponovno dohvaćanje podataka prilikom mounta komponente
 
@@ -61,9 +63,10 @@ const Competition = () => {
       <div className="competitions-list">
         {filteredCompetitions.map(competition => (
           <div key={competition.id} className="competition-item">
-            <h2>{competition.naziv}</h2>
-            <p>{competition.opis}</p>
+            <h2>Naziv: {competition.naziv}</h2>
+            <p>Opis: {competition.opis}</p>
             <p>Rok za prijavu: {competition.rok_prijave}</p>
+            <p>Povezanost s sveučilištem: {competition.povezanost}</p>
           </div>
         ))}
       </div>

@@ -7,11 +7,15 @@ const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
   const [rok, setRok] = useState('');
   const [povezanost, setPovezanost] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newCompetition = { naziv, opis, rok, povezanost, id: Date.now() };
+    const newCompetition = {
+      naziv,
+      opis,
+      rok_prijave: rok, // Ispravno postavljanje 'rok_prijave'
+      povezanost,
+    };
     onAddCompetition(newCompetition);
-    setShowForm(false);
   };
 
   return (
@@ -19,42 +23,42 @@ const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
       <form className="edit-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="naziv-form">Naziv:</label>
-          <input 
-            type="text" 
-            id="naziv-form" 
-            value={naziv} 
-            onChange={(e) => setNaziv(e.target.value)} 
+          <input
+            type="text"
+            id="naziv-form"
+            value={naziv}
+            onChange={(e) => setNaziv(e.target.value)}
           />
         </div>
         <div className="form-group">
           <label htmlFor="opis-form">Opis:</label>
-          <textarea 
-            id="opis-form" 
-            value={opis} 
-            onChange={(e) => setOpis(e.target.value)} 
+          <textarea
+            id="opis-form"
+            value={opis}
+            onChange={(e) => setOpis(e.target.value)}
           />
         </div>
         <div className="form-group">
           <label htmlFor="rok-form">Rok za prijavu:</label>
-          <input 
-            type="date" 
-            id="rok-form" 
-            value={rok} 
-            onChange={(e) => setRok(e.target.value)} 
+          <input
+            type="date"
+            id="rok-form"
+            value={rok}
+            onChange={(e) => setRok(e.target.value)}
           />
         </div>
         <div className="form-group">
           <label htmlFor="povezanost-form">Povezanost s predmetom/sveučilištem:</label>
-          <input 
-            type="text" 
-            id="povezanost-form" 
-            value={povezanost} 
-            onChange={(e) => setPovezanost(e.target.value)} 
+          <input
+            type="text"
+            id="povezanost-form"
+            value={povezanost}
+            onChange={(e) => setPovezanost(e.target.value)}
           />
         </div>
         <div className="form-buttons">
-          <button type="submit" className="button-left">Objavi</button>
-          <button type="button" className="button-right" onClick={() => setShowForm(false)}>Odustani</button>
+          <button type="submit">Objavi</button>
+          <button type="button" onClick={() => setShowForm(false)}>Odustani</button>
         </div>
       </form>
     </div>

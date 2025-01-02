@@ -1,11 +1,18 @@
 .competitions-section {
   padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
+  background-color: darkblue;
+  color: white;
+  border-radius: 5px;
+  width: auto;
 }
 
 .search-bar {
@@ -22,6 +29,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .competitions-list {
@@ -34,12 +42,20 @@
   margin-bottom: 10px;
   border-radius: 5px;
   background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.competition-item:hover {
+  background-color: #e8f5e9;
 }
 
 .competition-item h2 {
   margin-top: 0;
+  font-size: 1.5em;
+  color: #333;
 }
 
 .competition-item p {
   margin: 5px 0;
+  color: #666;
 }
