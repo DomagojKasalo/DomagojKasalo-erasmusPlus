@@ -26,11 +26,13 @@ const Competition = () => {
 
     // Provjera je li korisnik admin - svaki put kada se komponenta učita
     const user = JSON.parse(localStorage.getItem('user'));
+    console.log("User from localStorage: ", user); // Ispiši cijeli objekt
     if (user && user.role === 'admin') {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
     }
+    //console.log("Is admin: ", isAdmin);  //
   }, []); // Ponovno dohvaćanje podataka prilikom mounta komponente
 
   const handleAddCompetition = (newCompetition) => {
