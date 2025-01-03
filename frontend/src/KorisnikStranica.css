@@ -1,0 +1,75 @@
+
+.users-page {
+    padding: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #F5F5F5;
+    ;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #ddd;
+  }
+  
+  button:active {
+    background-color: #ccc;
+  }
+  
+  .edit-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+  
+  .edit-section form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-section form div {
+    margin-bottom: 10px;
+  }
+  
+  .edit-section form label {
+    font-weight: bold;
+  }
+  
+  .edit-section form input {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-section form button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .edit-section form button[type="button"] {
+    background-color: #f44336;
+  }
+  

@@ -107,6 +107,7 @@
     border-radius: 20px;
     margin-left: 50px;
     margin-bottom: 20px;
+    margin-top: 10px;
     
 }
 
@@ -135,6 +136,7 @@
 .role-dropdown:focus {
     border: 2px solid #3c009d;
     background: #f5f5f5;
+    margin-bottom: 10px;
 }
 
 .submit-inline { 

@@ -5,6 +5,10 @@ import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 import surname_icon from '../Assets/surname.png';
+import address_icon from '../Assets/address.png'; // Dodaj ikonu za adresu
+import oib_icon from '../Assets/person.png'; // Dodaj ikonu za OIB
+import phone_icon from '../Assets/phone.png'; // Dodaj ikonu za telefon
+import university_icon from '../Assets/university.png'; // Dodaj ikonu za sveučilište
 
 const LoginSignup = ({ onLogin }) => {
   const [action, setAction] = useState("Login");
@@ -15,6 +19,10 @@ const LoginSignup = ({ onLogin }) => {
     lozinka: "",
     role: "",
     gender: "",
+    adresa: "", // Nova polja
+    oib: "", // Nova polja
+    telefon: "", // Nova polja
+    sveuciliste: "", // Nova polja
   });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -34,24 +42,28 @@ const LoginSignup = ({ onLogin }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ime: formData.ime, // Promijenjeno na 'ime' umjesto 'firstName'
-          prezime: formData.prezime, // Promijenjeno na 'prezime' umjesto 'lastName'
+          ime: formData.ime, 
+          prezime: formData.prezime, 
           email: formData.email,
           lozinka: formData.lozinka,
           spol: formData.gender,
           uloga: formData.role,
+          adresa: formData.adresa, // Dodano
+          oib: formData.oib, // Dodano
+          telefon: formData.telefon, // Dodano
+          sveuciliste: formData.sveuciliste, // Dodano
         }),
       });
 
       const data = await response.json();
       if (response.ok) {
-        setSuccess("Registration successful!");
+        setSuccess("Registracija je uspješna!");
         setError(null);
       } else {
-        setError(data.message || "An error occurred");
+        setError(data.message || "Došlo je do pogreške");
       }
     } catch (error) {
-      setError("Something went wrong!");
+      setError("Nešto je krivo!");
     }
   };
 
@@ -77,27 +89,25 @@ const LoginSignup = ({ onLogin }) => {
   
       if (response.ok) {
         const user = {
-          ime: data.korisnik.ime, // 'ime' sa backend-a
-          prezime: data.korisnik.prezime, // 'prezime' sa backend-a
+          ime: data.korisnik.ime, 
+          prezime: data.korisnik.prezime, 
           email: data.korisnik.email,
-          profileImage: data.korisnik.profileImage || "profile-placeholder.png",
-          role: data.korisnik.uloga, // Provjerimo da li se pohranjuje uloga (role)
+          role: data.korisnik.uloga, 
         };
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(user));
         console.log('User data saved to localStorage:', user);
-        setSuccess("Logged in successfully!");
+        setSuccess("Prijava je uspješna!");
         setError(null);
         onLogin();
         navigate("/profile");
       } else {
-        setError(data.message || "An error occurred");
+        setError(data.message || "Došlo je do pogreške");
       }
     } catch (error) {
-      setError("Something went wrong!");
+      setError("Nešto je krivo!");
     }
   };
-  
 
   return (
     <div className="container">
@@ -113,7 +123,7 @@ const LoginSignup = ({ onLogin }) => {
               <input
                 type="text"
                 placeholder="Ime"
-                name="ime" // Promijenjeno na 'ime' umjesto 'firstName'
+                name="ime"
                 value={formData.ime}
                 onChange={handleInputChange}
               />
@@ -123,7 +133,7 @@ const LoginSignup = ({ onLogin }) => {
               <input
                 type="text"
                 placeholder="Prezime"
-                name="prezime" // Promijenjeno na 'prezime' umjesto 'lastName'
+                name="prezime"
                 value={formData.prezime}
                 onChange={handleInputChange}
               />
@@ -135,6 +145,46 @@ const LoginSignup = ({ onLogin }) => {
                 placeholder="Gender (M/Ž)"
                 name="gender"
                 value={formData.gender}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input">
+              <img src={address_icon} alt="" />
+              <input
+                type="text"
+                placeholder="Adresa"
+                name="adresa"
+                value={formData.adresa}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input">
+              <img src={oib_icon} alt="" />
+              <input
+                type="text"
+                placeholder="OIB"
+                name="oib"
+                value={formData.oib}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input">
+              <img src={phone_icon} alt="" />
+              <input
+                type="text"
+                placeholder="Telefon"
+                name="telefon"
+                value={formData.telefon}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input">
+              <img src={university_icon} alt="" />
+              <input
+                type="text"
+                placeholder="Sveučilište"
+                name="sveuciliste"
+                value={formData.sveuciliste}
                 onChange={handleInputChange}
               />
             </div>
@@ -167,7 +217,7 @@ const LoginSignup = ({ onLogin }) => {
             value={formData.role}
             onChange={handleInputChange}
           >
-            <option value="" disabled>Choose Role</option>
+            <option value="" disabled>Odaberi ulogu</option>
             <option value="nastavnik">Nastavnik</option>
             <option value="student">Student</option>
             <option value="admin">Admin</option>
@@ -182,14 +232,14 @@ const LoginSignup = ({ onLogin }) => {
         <div className="submit-inline">
           {action === "Login" && (
             <>
-              <div className="submit" onClick={() => setAction("Sign Up")}>Sign Up</div>
-              <div className="submit" onClick={handleLogin}>Login</div>
+              <div className="submit" onClick={() => setAction("Sign Up")}>Registracija</div>
+              <div className="submit" onClick={handleLogin}>Prijava</div>
             </>
           )}
           {action === "Sign Up" && (
             <>
-              <div className="submit" onClick={handleRegister}>Sign Up</div>
-              <div className="submit gray" onClick={() => setAction("Login")}>Back to Login</div>
+              <div className="submit" onClick={handleRegister}>Registracija</div>
+              <div className="submit gray" onClick={() => setAction("Login")}>Povratak na login</div>
             </>
           )}
         </div>
