@@ -3,7 +3,7 @@ const Sveucilista = require('../models/Sveucilista');
 // Kreiraj sveučilište
 const createSveuciliste = async (req, res) => {
   try {
-    const { naziv, adresa, telefon, email } = req.body;
+    const { naziv, adresa, email, telefon } = req.body;
 
     // Provjeri postoji li sveučilište s istim emailom
     const existingSveuciliste = await Sveucilista.findOne({ email });

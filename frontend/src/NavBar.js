@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Trebat ćete axios za slanje zahtjeva
+import axios from 'axios';
 import './NavBar.css';
 
 const NavBar = ({ handleLogout }) => {
-  const [userRole, setUserRole] = useState(null); // Držimo stanje za ulogu
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token'); // Dohvati token iz localStorage
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (token) {
-      // Ako je korisnik prijavljen, dohvati podatke o korisniku s backend-a
       const fetchUserRole = async () => {
         try {
           const response = await axios.get('http://localhost:5000/api/users/me', {
@@ -19,8 +18,7 @@ const NavBar = ({ handleLogout }) => {
             },
           });
 
-          // Postavi ulogu na temelju odgovora
-          setUserRole(response.data.uloga); // Pretpostavljamo da `uloga` dolazi u odgovoru
+          setUserRole(response.data.uloga);
         } catch (error) {
           console.error('Greška pri dohvaćanju podataka o korisniku:', error);
         }
@@ -30,41 +28,45 @@ const NavBar = ({ handleLogout }) => {
     }
   }, [token]);
 
-  // Provjera uloge
-  console.log('User role from backend:', userRole); // Dodajte log za provjeru
+  console.log('User role from backend:', userRole);
 
   const onLogoutClick = () => {
     handleLogout();
-    navigate('/'); // Preusmjeravanje na početnu stranicu nakon odjave
+    navigate('/');
   };
 
   return (
     <nav className="navbar">
-      <div className="navbar-title">Erasmus</div> {/* Naslov bez linka */}
+      <div className="navbar-title">Erasmus</div>
       <ul className="navbar-links">
         <li>
           <Link to="/natjecaji">Svi natječaji</Link>
         </li>
-        <li>
-          <Link to="/profile">Moj Profil</Link>
-        </li>
-        <></>
-
-        {/* Prikazivanje opcije "Korisnici" samo ako je korisnik admin */}
-        {userRole === 'admin' && (
-          <li>
-            <Link to="/users">Korisnici</Link>
-          </li>
-        )}
-
-        {/* Prikazivanje opcije "Rezultati" samo ako je korisnik nastavnik ili admin */}
+        {/* Nastavnik i admin opcija */}
         {(userRole === 'nastavnik' || userRole === 'admin') && (
           <li>
             <Link to="/competition-result">Rezultati</Link>
           </li>
         )}
 
-
+        {/* Admin opcije */}
+        {userRole === 'admin' && (
+          <>
+            <li>
+              <Link to="/users">Korisnici</Link>
+            </li>
+            <li>
+              <Link to="/schools">Sveučilišta</Link>
+            </li>
+            <li>
+              <Link to="/companies">Tvrtke</Link>
+            </li>
+          </>
+        )}
+        
+        <li>
+          <Link to="/profile">Moj Profil</Link>
+        </li>
         <li>
           <button onClick={onLogoutClick} className="logout-button">Odjava</button>
         </li>

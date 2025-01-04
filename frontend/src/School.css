@@ -1,0 +1,143 @@
+
+/* ============================= */
+/* Sekcija Sveučilišta */
+/* ============================= */
+
+.schools-section {
+  position: relative;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Header sa naslovom i akcijama */
+.schools-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+.schools-header h1 {
+  font-size: 1.8em;
+  margin: 0;
+}
+
+/* Lista Sveučilišta */
+.schools-list {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.school-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 100%;
+  max-width: 550px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, background-color 0.3s ease;
+}
+
+.school-item:hover {
+  transform: scale(1.03);
+  background-color: #e8f5e9;
+}
+
+.school-item h2 {
+  font-size: 1.6em;
+  color: #333;
+}
+
+.school-item p {
+  margin: 8px 0;
+  color: #666;
+}
+
+/* Forma za dodavanje Sveučilišta */
+.add-school-form {
+  margin-top: 30px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 650px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-school-form h2 {
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.add-school-form .form-group {
+  margin-bottom: 20px;
+}
+
+.add-school-form label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.add-school-form input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+  transition: border 0.3s;
+}
+
+.add-school-form input:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+/* Dugme za osvježavanje liste */
+.refresh-btn {
+  margin-top: 10px;
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.refresh-btn:hover {
+  background-color: #0056b3;
+}
+/* Dugme za dodavanje natječaja */
+.add-school-btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.add-school-btn button {
+  background-color: #007BFF;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.add-schoolbtn button:hover {
+  background-color: #0056b3;
+}

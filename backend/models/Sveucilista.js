@@ -6,7 +6,7 @@ const sveucilisteSchema = mongoose.Schema(
     adresa: { type: String, required: true }, 
     telefon: { type: String }, 
     email: { type: String, required: true, unique: true }, 
-    adresa: { type: String, required: true }
+    //adresa: { type: String, required: true }
   },
   { timestamps: true } 
 );
