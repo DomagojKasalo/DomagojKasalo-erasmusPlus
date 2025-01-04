@@ -9,6 +9,17 @@
     background: #F5F5F5;
     ;
   }
+  h1 {
+    font-size: 24px; /* Promenite veličinu fonta */
+    font-weight: bold; /* Podebljan tekst */
+    text-align: center; /* Poravnanje naslova na sredinu */
+    margin-bottom: 20px; /* Razmak ispod naslova */
+    color: #333; /* Boja teksta */
+    text-transform: uppercase; /* Sva slova velika */
+    letter-spacing: 2px; /* Razmak između slova */
+    color: #ddd;
+  }
+  
   
   table, th, td {
     border: 1px solid #ddd;

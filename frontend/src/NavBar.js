@@ -48,6 +48,7 @@ const NavBar = ({ handleLogout }) => {
         <li>
           <Link to="/profile">Moj Profil</Link>
         </li>
+        <></>
 
         {/* Prikazivanje opcije "Korisnici" samo ako je korisnik admin */}
         {userRole === 'admin' && (
@@ -55,6 +56,14 @@ const NavBar = ({ handleLogout }) => {
             <Link to="/users">Korisnici</Link>
           </li>
         )}
+
+        {/* Prikazivanje opcije "Rezultati" samo ako je korisnik nastavnik ili admin */}
+        {(userRole === 'nastavnik' || userRole === 'admin') && (
+          <li>
+            <Link to="/competition-result">Rezultati</Link>
+          </li>
+        )}
+
 
         <li>
           <button onClick={onLogoutClick} className="logout-button">Odjava</button>
