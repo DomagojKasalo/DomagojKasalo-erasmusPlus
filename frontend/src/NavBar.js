@@ -43,7 +43,7 @@ const NavBar = ({ handleLogout }) => {
       <div className="navbar-title">Erasmus</div> {/* Naslov bez linka */}
       <ul className="navbar-links">
         <li>
-          <Link to="/competitions">Svi natječaji</Link>
+          <Link to="/natjecaji">Svi natječaji</Link>
         </li>
         <li>
           <Link to="/profile">Moj Profil</Link>

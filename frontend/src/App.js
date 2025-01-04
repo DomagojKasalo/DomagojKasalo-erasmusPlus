@@ -4,7 +4,8 @@ import LoginSignup from './components/LoginSignup/LoginSignup';
 import Profile from './Profile';
 import Competition from './Competition';
 import NavBar from './NavBar';
-import KorisnikStranica from './KorsnikStranica';
+import UserPage from './UserPage';
+
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,8 +34,8 @@ const App = () => {
           <Route path="/" element={<LoginSignup onLogin={handleLogin} />} />
           {isAuthenticated ? (
             <>
-              <Route path="/competitions" element={<Competition />} />
-              <Route path="/users" element={<KorisnikStranica />} /> 
+              <Route path="/natjecaji" element={<Competition />} />
+              <Route path="/users" element={<UserPage />} /> 
               <Route path="/profile" element={<Profile />} />
               <Route path="/odjava" element={<Navigate to="/" />} />
             </>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 import surname_icon from '../Assets/surname.png';
-import address_icon from '../Assets/address.png'; // Dodaj ikonu za adresu
-import oib_icon from '../Assets/person.png'; // Dodaj ikonu za OIB
-import phone_icon from '../Assets/phone.png'; // Dodaj ikonu za telefon
-import university_icon from '../Assets/university.png'; // Dodaj ikonu za sveučilište
+import address_icon from '../Assets/address.png';
+import oib_icon from '../Assets/person.png';
+import phone_icon from '../Assets/phone.png';
+import university_icon from '../Assets/university.png';
 
 const LoginSignup = ({ onLogin }) => {
   const [action, setAction] = useState("Login");
@@ -19,15 +19,22 @@ const LoginSignup = ({ onLogin }) => {
     lozinka: "",
     role: "",
     gender: "",
-    adresa: "", // Nova polja
-    oib: "", // Nova polja
-    telefon: "", // Nova polja
-    sveuciliste: "", // Nova polja
+    adresa: "",
+    oib: "",
+    telefon: "",
+    sveuciliste: "",
   });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
   const navigate = useNavigate();
+
+  // Logika za odjavu pri učitavanju aplikacije
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setAction("Login"); // Resetiraj stanje na "Login"
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,16 +49,16 @@ const LoginSignup = ({ onLogin }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ime: formData.ime, 
-          prezime: formData.prezime, 
+          ime: formData.ime,
+          prezime: formData.prezime,
           email: formData.email,
           lozinka: formData.lozinka,
           spol: formData.gender,
           uloga: formData.role,
-          adresa: formData.adresa, // Dodano
-          oib: formData.oib, // Dodano
-          telefon: formData.telefon, // Dodano
-          sveuciliste: formData.sveuciliste, // Dodano
+          adresa: formData.adresa,
+          oib: formData.oib,
+          telefon: formData.telefon,
+          sveuciliste: formData.sveuciliste,
         }),
       });
 
@@ -79,20 +86,14 @@ const LoginSignup = ({ onLogin }) => {
           lozinka: formData.lozinka,
         }),
       });
-  
-      let data = await response.text();
-      try {
-        data = JSON.parse(data);
-      } catch (error) {
-        data = { message: "Invalid JSON response" };
-      }
-  
+
+      const data = await response.json();
       if (response.ok) {
         const user = {
-          ime: data.korisnik.ime, 
-          prezime: data.korisnik.prezime, 
+          ime: data.korisnik.ime,
+          prezime: data.korisnik.prezime,
           email: data.korisnik.email,
-          role: data.korisnik.uloga, 
+          role: data.korisnik.uloga,
         };
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(user));

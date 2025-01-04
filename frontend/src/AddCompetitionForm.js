@@ -1,65 +1,73 @@
 import React, { useState } from 'react';
-import './AddCompetitionForm.css';
 
 const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
   const [naziv, setNaziv] = useState('');
   const [opis, setOpis] = useState('');
-  const [rok, setRok] = useState('');
-  const [povezanost, setPovezanost] = useState('');
+  const [vrstaNatjecaja, setVrstaNatjecaja] = useState('');
+  const [rokPrijave, setRokPrijave] = useState('');
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newCompetition = {
       naziv,
       opis,
-      rok_prijave: rok, // Ispravno postavljanje 'rok_prijave'
-      povezanost,
+      vrsta_natjecaja: vrstaNatjecaja,
+      rok_prijave: rokPrijave,
     };
-    onAddCompetition(newCompetition);
+
+    try {
+      await onAddCompetition(newCompetition);
+      
+      // Close the form after successful submission
+      setShowForm(false);
+    } catch (error) {
+      console.error('Error creating competition:', error);
+    }
   };
 
   return (
-    <div className="edit-section-vertical">
-      <form className="edit-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="naziv-form">Naziv:</label>
+    <div className="add-competition-form">
+      <h2>Dodaj novi natječaj</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="naziv">Naziv:</label>
           <input
             type="text"
-            id="naziv-form"
+            id="naziv"
             value={naziv}
             onChange={(e) => setNaziv(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="opis-form">Opis:</label>
+        <div>
+          <label htmlFor="opis">Opis:</label>
           <textarea
-            id="opis-form"
+            id="opis"
             value={opis}
             onChange={(e) => setOpis(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="rok-form">Rok za prijavu:</label>
-          <input
-            type="date"
-            id="rok-form"
-            value={rok}
-            onChange={(e) => setRok(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="povezanost-form">Povezanost s predmetom/sveučilištem:</label>
+        <div>
+          <label htmlFor="vrstaNatjecaja">Vrsta natječaja:</label>
           <input
             type="text"
-            id="povezanost-form"
-            value={povezanost}
-            onChange={(e) => setPovezanost(e.target.value)}
+            id="vrstaNatjecaja"
+            value={vrstaNatjecaja}
+            onChange={(e) => setVrstaNatjecaja(e.target.value)}
           />
         </div>
-        <div className="form-buttons">
-          <button type="submit">Objavi</button>
-          <button type="button" onClick={() => setShowForm(false)}>Odustani</button>
+        <div>
+          <label htmlFor="rokPrijave">Rok prijave:</label>
+          <input
+            type="date"
+            id="rokPrijave"
+            value={rokPrijave}
+            onChange={(e) => setRokPrijave(e.target.value)}
+          />
         </div>
+        
+        <button type="submit">Spremi</button>
+        <button type="button" onClick={() => setShowForm(false)}>Odustani</button>
       </form>
     </div>
   );

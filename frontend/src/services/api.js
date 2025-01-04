@@ -20,5 +20,9 @@ api.interceptors.request.use(
 
 export const registerUser = (userData) => api.post('/users/register', userData);
 export const loginUser = (loginData) => api.post('/users/login', loginData);
+export const fetchCompetitions = () => api.get('/natjecaji');
+export const createCompetition = (competitionData) => api.post('/natjecaji', competitionData);
+export const deleteCompetition = (id) => api.delete(`/natjecaji/${id}`);
+
 
 export default api;

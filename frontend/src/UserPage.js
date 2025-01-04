@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './KorisnikStranica.css';
+import './UserPage.css';
 
-const KorisnikStranica = () => {
+const UserPage = () => {
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null); // Dodano za selektiranu korisnika za editiranje
-  const [isEditing, setIsEditing] = useState(false); // Kontrola uređivanja
+  const [selectedUser, setSelectedUser] = useState(null); 
+  const [isEditing, setIsEditing] = useState(false); 
   const token = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,7 +16,7 @@ const KorisnikStranica = () => {
         const response = await axios.get('http://localhost:5000/api/users', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log('Odgovor s backenda:', response.data); // Provjeri odgovor s backenda
+        console.log('Odgovor s backenda:', response.data); 
         setUsers(response.data);
       } catch (error) {
         console.error('Greška pri dohvaćanju korisnika:', error);
@@ -161,4 +161,4 @@ const KorisnikStranica = () => {
   );
 };
 
-export default KorisnikStranica;
+export default UserPage;
