@@ -85,3 +85,8 @@
     background-color: #f44336;
   }
   
+  
+.error {
+  color: red;
+  font-size: 0.9em;
+}

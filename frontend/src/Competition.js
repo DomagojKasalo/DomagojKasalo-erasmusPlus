@@ -6,12 +6,17 @@ import './Competition.css';
 const Competition = () => {
   const [competitions, setCompetitions] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [userRole, setUserRole] = useState(null); // Držimo stanje za ulogu
+  const [userRole, setUserRole] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const token = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
+  const [formErrors, setFormErrors] = useState({});
+
+  // Filter settings
+  const [isOpenOnly, setIsOpenOnly] = useState(false);
+  const [searchDate, setSearchDate] = useState('');
 
   useEffect(() => {
     if (token) {
@@ -20,16 +25,11 @@ const Competition = () => {
           const response = await axios.get('http://localhost:5000/api/users/me', {
             headers: { Authorization: `Bearer ${token}` },
           });
-
-          // Provjera strukture odgovora
-          console.log('Odgovor API-ja:', response.data);
-
-          // Promijeniti 'role' u 'uloga'
           const uloga = response.data && response.data.uloga ? response.data.uloga.toLowerCase() : 'guest';
           setUserRole(uloga);
         } catch (error) {
           console.error('Greška pri dohvaćanju korisničkih podataka:', error);
-          setUserRole('guest'); // Pretpostavljena vrijednost ako API ne uspije
+          setUserRole('guest');
         }
       };
 
@@ -51,10 +51,6 @@ const Competition = () => {
     }
   }, [token]);
 
-  if (userRole === null) {
-    return <p>Učitavam podatke...</p>; // Loader dok se uloga učitava
-  }
-
   const handleDeleteCompetition = async (id) => {
     if (window.confirm('Jesi li siguran da želiš obrisati?')) {
       try {
@@ -64,7 +60,7 @@ const Competition = () => {
         setCompetitions(competitions.filter(comp => comp._id !== id));
         alert('Natječaj je uspješno obrisan.');
       } catch (error) {
-        console.error('Error deleting competition:', error);
+        console.error('Greška pri brisanju natječaja:', error);
         alert('Greška pri brisanju natječaja.');
       }
     }
@@ -86,12 +82,49 @@ const Competition = () => {
 
   const handleUpdateCompetition = async (event) => {
     event.preventDefault();
+
+    setFormErrors({});
+
+    const errors = {};
+    console.log('Updating competition:', selectedCompetition);
+
+    if (!selectedCompetition.naziv) errors.naziv = 'Naziv ne smije biti prazan.';
+    if (!selectedCompetition.opis) errors.opis = 'Opis ne smije biti prazan.';
+    if (!selectedCompetition.vrsta_natjecaja) errors.vrsta_natjecaja = 'Vrsta natječaja ne smije biti prazna.';
+    if (!selectedCompetition.rok_prijave) {
+      errors.rok_prijave = 'Rok prijave ne smije biti prazan.';
+    } else {
+      const currentDate = new Date();
+      const selectedDate = new Date(selectedCompetition.rok_prijave);
+      if (selectedDate < currentDate) {
+        errors.rok_prijave = 'Datum prijave je u prošlosti.';
+      }
+    }
+
+    if (!selectedCompetition.status_natjecaja) {
+      errors.status_natjecaja = 'Status natječaja ne smije biti prazan.';
+    } else if (!['otvoren', 'zatvoren'].includes(selectedCompetition.status_natjecaja)) {
+      errors.status_natjecaja = 'Status natječaja mora biti "otvoren" ili "zatvoren".';
+    }
+    
+    console.log('Errors:', errors);
+
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
     const updatedCompetition = {
       naziv: selectedCompetition.naziv,
       opis: selectedCompetition.opis,
       rok_prijave: selectedCompetition.rok_prijave,
       vrsta_natjecaja: selectedCompetition.vrsta_natjecaja,
+      status_natjecaja: selectedCompetition.status_natjecaja,
     };
+
+    console.log('Updated competition:', updatedCompetition);
+
 
     try {
       await axios.put(`http://localhost:5000/api/natjecaji/${selectedCompetition._id}`, updatedCompetition, {
@@ -101,7 +134,7 @@ const Competition = () => {
       setIsEditing(false);
       alert('Natječaj je uspješno ažuriran.');
     } catch (error) {
-      console.error('Error updating competition:', error);
+      console.error('Greška pri ažuriranju natječaja:', error);
       alert('Greška pri ažuriranju natječaja.');
     }
   };
@@ -111,9 +144,26 @@ const Competition = () => {
     setSelectedCompetition({ ...selectedCompetition, [name]: value });
   };
 
-  const filteredCompetitions = competitions.filter(competition =>
-    competition.naziv.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleResetFilter = () => {
+    setSearchQuery('');
+    setSearchDate('');
+    setIsOpenOnly(false);
+  };
+
+  const filteredCompetitions = competitions.filter(competition => {
+    let matchesSearchQuery = competition.naziv.toLowerCase().includes(searchQuery.toLowerCase());
+    let matchesDate = true;
+    if (searchDate) {
+      const compDate = new Date(competition.rok_prijave);
+      const filterDate = new Date(searchDate);
+      matchesDate = compDate >= filterDate;
+    }
+    let matchesStatus = true;
+    if (isOpenOnly) {
+      matchesStatus = competition.status_natjecaja === 'otvoren';
+    }
+    return matchesSearchQuery && matchesDate && matchesStatus;
+  });
 
   return (
     <div className="competitions-section">
@@ -128,6 +178,34 @@ const Competition = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+      </div>
+
+      <div className="filters">
+        {userRole === 'student' || userRole === 'nastavnik' ? (
+          <>
+            <div>
+              <label htmlFor="searchDate">Pretraži po datumu:</label>
+              <input
+                type="date"
+                id="searchDate"
+                value={searchDate}
+                onChange={(e) => setSearchDate(e.target.value)}
+              />
+            </div>
+            <div className="checkbox-container">
+              <label htmlFor="openOnly">Prikazuj samo otvorene:</label>
+              <input
+                type="checkbox"
+                id="openOnly"
+                checked={isOpenOnly}
+                onChange={() => setIsOpenOnly(!isOpenOnly)}
+              />
+            </div>
+            <div>
+              <button onClick={handleResetFilter}>Ponisti filtere</button>
+            </div>
+          </>
+        ) : null}
       </div>
 
       {userRole === 'admin' && (
@@ -146,6 +224,7 @@ const Competition = () => {
                 <h2>{competition.naziv}</h2>
                 <p>Opis: {competition.opis}</p>
                 <p>Rok prijave: {competition.rok_prijave}</p>
+                <p>Status: {competition.status_natjecaja}</p>
                 {userRole === 'admin' && (
                   <>
                     <button onClick={() => { setSelectedCompetition(competition); setIsEditing(true); }}>Uredi</button>
@@ -173,6 +252,7 @@ const Competition = () => {
                 value={selectedCompetition.naziv}
                 onChange={handleChange}
               />
+              {formErrors.naziv && <p className="error">{formErrors.naziv}</p>}
             </div>
             <div>
               <label htmlFor="opis">Opis:</label>
@@ -182,6 +262,7 @@ const Competition = () => {
                 value={selectedCompetition.opis}
                 onChange={handleChange}
               />
+              {formErrors.opis && <p className="error">{formErrors.opis}</p>}
             </div>
             <div>
               <label htmlFor="rok_prijave">Rok prijave:</label>
@@ -192,6 +273,7 @@ const Competition = () => {
                 value={selectedCompetition.rok_prijave}
                 onChange={handleChange}
               />
+              {formErrors.rok_prijave && <p className="error">{formErrors.rok_prijave}</p>}
             </div>
             <div>
               <label htmlFor="vrsta_natjecaja">Vrsta natječaja:</label>
@@ -199,21 +281,34 @@ const Competition = () => {
                 type="text"
                 id="vrsta_natjecaja"
                 name="vrsta_natjecaja"
-                value={selectedCompetition.vrsta_natjecaja || ''}
+                value={selectedCompetition.vrsta_natjecaja}
                 onChange={handleChange}
               />
+              {formErrors.vrsta_natjecaja && <p className="error">{formErrors.vrsta_natjecaja}</p>}
             </div>
-            <button type="submit">Spremi</button>
-            <button type="button" onClick={() => setIsEditing(false)}>Odustani</button>
+            <div>
+              <label htmlFor="status_natjecaja">Status:</label>
+              <select
+                id="status_natjecaja"
+                name="status_natjecaja"
+                value={selectedCompetition.status_natjecaja}
+                onChange={handleChange}
+              >
+                <option value="otvoren">Otvoren</option>
+                <option value="zatvoren">Zatvoren</option>
+              </select>
+              {formErrors.status_natjecaja && <p className="error">{formErrors.status_natjecaja}</p>}
+            </div>
+            <div>
+              <button type="submit">Spremi</button>
+              <button type="button" onClick={() => setIsEditing(false)}>Odustani</button>
+            </div>
           </form>
         </div>
       )}
 
       {showForm && (
-        <AddCompetitionForm
-          setShowForm={setShowForm}
-          onAddCompetition={handleAddCompetition}
-        />
+        <AddCompetitionForm onAddCompetition={handleAddCompetition} />
       )}
     </div>
   );

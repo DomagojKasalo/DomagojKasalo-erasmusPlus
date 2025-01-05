@@ -6,20 +6,27 @@ const UserPage = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null); 
   const [isEditing, setIsEditing] = useState(false); 
+  const [formErrors, setFormErrors] = useState({
+    ime: "",
+    prezime: "",
+    email: "",
+    uloga: "",
+  }); // Errors for each field
+  const [error, setError] = useState(""); // For displaying global errors
   const token = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        console.log('Poslano na backend');
+        console.log('Fetching data from backend');
         const response = await axios.get('http://localhost:5000/api/users', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log('Odgovor s backenda:', response.data); 
+        console.log('Backend response:', response.data); 
         setUsers(response.data);
       } catch (error) {
-        console.error('Greška pri dohvaćanju korisnika:', error);
+        console.error('Error fetching users:', error);
       } finally {
         setIsLoading(false);
       }
@@ -39,7 +46,7 @@ const UserPage = () => {
         setUsers(users.filter(user => user._id !== userId));
         alert('Korisnik je uspješno izbrisan.');
       } catch (error) {
-        console.error('Greška pri brisanju korisnika:', error);
+        console.error('Error deleting user:', error);
         alert('Greška pri brisanju korisnika.');
       }
     }
@@ -47,6 +54,39 @@ const UserPage = () => {
 
   const handleUpdate = async (event) => {
     event.preventDefault();
+
+    let validationErrors = {
+      ime: "",
+      prezime: "",
+      email: "",
+      uloga: "",
+    };
+
+    let isValid = true;
+
+    // Validation
+    if (!selectedUser.ime) {
+      validationErrors.ime = "Ime je obavezno.";
+      isValid = false;
+    }
+    if (!selectedUser.prezime) {
+      validationErrors.prezime = "Prezime je obavezno.";
+      isValid = false;
+    }
+    if (!selectedUser.email || !/\S+@\S+\.\S+/.test(selectedUser.email)) {
+      validationErrors.email = "Unesite ispravan email.";
+      isValid = false;
+    }
+    if (!selectedUser.uloga) {
+      validationErrors.uloga = "Uloga je obavezna.";
+      isValid = false;
+    }
+
+    if (!isValid) {
+      setFormErrors(validationErrors);
+      return; // Stop updating if there are errors
+    }
+
     const updatedUser = {
       ime: selectedUser.ime,
       prezime: selectedUser.prezime,
@@ -60,10 +100,10 @@ const UserPage = () => {
       });
       setUsers(users.map(user => user._id === selectedUser._id ? selectedUser : user));
       alert('Korisnik je uspješno ažuriran.');
-      setIsEditing(false); // Zatvori formu nakon uspješne promjene
+      setIsEditing(false); // Close form after successful update
     } catch (error) {
-      console.error('Greška pri ažuriranju korisnika:', error);
-      alert('Greška pri ažuriranju korisnika.');
+      console.error('Error updating user:', error);
+      setError('Greška pri ažuriranju korisnika.');
     }
   };
 
@@ -108,6 +148,8 @@ const UserPage = () => {
         </table>
       )}
 
+      {error && <div className="error-message">{error}</div>} {/* Show global error messages */}
+
       {isEditing && selectedUser && (
         <div className="edit-section">
           <h2>Uredi korisnika</h2>
@@ -121,6 +163,7 @@ const UserPage = () => {
                 value={selectedUser.ime}
                 onChange={handleChange}
               />
+              {formErrors.ime && <p className="error">{formErrors.ime}</p>}
             </div>
             <div>
               <label htmlFor="prezime">Prezime:</label>
@@ -131,6 +174,7 @@ const UserPage = () => {
                 value={selectedUser.prezime}
                 onChange={handleChange}
               />
+              {formErrors.prezime && <p className="error">{formErrors.prezime}</p>}
             </div>
             <div>
               <label htmlFor="email">E-mail:</label>
@@ -141,6 +185,7 @@ const UserPage = () => {
                 value={selectedUser.email}
                 onChange={handleChange}
               />
+              {formErrors.email && <p className="error">{formErrors.email}</p>}
             </div>
             <div>
               <label htmlFor="uloga">Uloga:</label>
@@ -151,6 +196,7 @@ const UserPage = () => {
                 value={selectedUser.uloga}
                 onChange={handleChange}
               />
+              {formErrors.uloga && <p className="error">{formErrors.uloga}</p>}
             </div>
             <button type="submit">Spremi promjene</button>
             <button type="button" onClick={() => setIsEditing(false)}>Odustani</button>

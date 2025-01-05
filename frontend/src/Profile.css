@@ -1,8 +1,10 @@
+/* Profil sekcija */
 .profile-section {
     padding: 20px;
     background-color: #f8f9fa;
 }
 
+/* Sekcija za prikaz informacija o profilu */
 .display-section {
     display: flex;
     align-items: center;
@@ -12,10 +14,12 @@
     padding-bottom: 20px;
 }
 
+/* Slika profila */
 .profile-header img {
     margin-right: 50px; /* Povećavanje razmaka između slike i informacija */
 }
 
+/* Detalji profila */
 .profile-details {
     flex-grow: 1;
     display: flex;
@@ -36,11 +40,13 @@
     margin-left: 10px;
 }
 
+/* Sekcija za uređivanje profila */
 .edit-button-container {
     display: flex;
     justify-content: flex-end;
 }
 
+/* Edit sekcija s vertikalnim poravnanjem */
 .edit-section-vertical {
     padding: 20px;
     background-color: #d8bff8;
@@ -56,6 +62,7 @@
     margin-right: auto;
 }
 
+/* Forme u edit sekciji */
 form.edit-form {
     display: flex;
     flex-direction: column;
@@ -74,6 +81,7 @@ form.edit-form label {
     font-weight: bold;
 }
 
+/* Input polja u formi */
 form.edit-form input {
     padding: 10px;
     border: 1px solid #ddd;
@@ -83,6 +91,7 @@ form.edit-form input {
     align-self: center;
 }
 
+/* Gumbi */
 button {
     padding: 10px 20px;
     background-color: #007bff;
@@ -94,6 +103,13 @@ button {
     margin-top: 10px;
 }
 
+/* Hover efekat na gumbima */
 button:hover {
     background-color: #0056b3;
+}
+
+/* Pogreške u validaciji */
+.error {
+    color: red;
+    font-size: 0.9em;
 }

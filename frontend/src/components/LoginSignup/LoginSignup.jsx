@@ -42,6 +42,32 @@ const LoginSignup = ({ onLogin }) => {
   };
 
   const handleRegister = async () => {
+  
+    let validationErrors=[];
+
+    if (!formData.ime) {
+      validationErrors.push("Ime je obavezno.");
+    }
+    if (!formData.prezime) {
+      validationErrors.push("Prezime je obavezno.");
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      validationErrors.push("Unesite ispravan email.");
+    }
+    if (formData.lozinka.length < 6) {
+      validationErrors.push("Lozinka mora imati najmanje 6 znakova.");
+    }
+    if (!['M', 'Ž'].includes(formData.gender)) {
+      validationErrors.push('Spol mora biti "M" ili "Ž".');
+    }
+    if (!['admin', 'student', 'nastavnik'].includes(formData.uloga)) {
+      validationErrors.push('Odabir uloge je potreban".');
+    }
+
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(", "));
+      return;
+    }
     try {
       const response = await fetch("http://localhost:5000/api/users/register", {
         method: "POST",
@@ -75,6 +101,21 @@ const LoginSignup = ({ onLogin }) => {
   };
 
   const handleLogin = async () => {
+    let validationErrors=[];
+
+
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      validationErrors.push("Unesite ispravan email.");
+    }
+    if (formData.lozinka.length < 6) {
+      validationErrors.push("Lozinka mora imati najmanje 6 znakova.");
+    }
+
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(", "));
+      return;
+    }
+    
     try {
       const response = await fetch("http://localhost:5000/api/users/login", {
         method: "POST",
