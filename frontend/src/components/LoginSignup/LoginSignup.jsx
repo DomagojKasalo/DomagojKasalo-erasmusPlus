@@ -60,7 +60,7 @@ const LoginSignup = ({ onLogin }) => {
     if (!['M', 'Ž'].includes(formData.gender)) {
       validationErrors.push('Spol mora biti "M" ili "Ž".');
     }
-    if (!['admin', 'student', 'nastavnik'].includes(formData.uloga)) {
+    if (!['admin', 'student', 'nastavnik'].includes(formData.role)) {
       validationErrors.push('Odabir uloge je potreban".');
     }
 
