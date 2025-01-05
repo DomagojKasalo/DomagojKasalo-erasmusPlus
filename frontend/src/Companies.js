@@ -132,7 +132,7 @@ const Companies = () => {
                 <h2>{company.naziv}</h2>
                 <p>Adresa: {company.adresa}</p>
                 <p>Email: {company.email}</p>
-                <p>Telefon: {company.kontakt_telefon}</p>
+                <p>Telefon: {company.telefon}</p>
                 {userRole === 'admin' && (
                   <>
                     <button onClick={() => { setSelectedCompany(company); setShowForm(true); }}>

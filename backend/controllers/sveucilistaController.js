@@ -4,15 +4,15 @@ const Sveucilista = require('../models/Sveucilista');
 const createSveuciliste = async (req, res) => {
   //console.log('Dolazni podaci:', req.body);
   try {
-    const { naziv, adresa, email, kontakt_telefon } = req.body;
+    const { naziv, adresa, email, telefon } = req.body;
    
     // Provjeri postoji li sveučilište s istim emailom
     const existingSveuciliste = await Sveucilista.findOne({ email });
     if (existingSveuciliste) {
       return res.status(400).json({ message: 'Sveucisliste s ovim emailom već postoji.' });
     }
-    //console.log(kontakt_telefon)
-    const sveuciliste = await Sveucilista.create({ naziv, adresa,kontakt_telefon, email });
+    //console.log(telefon)
+    const sveuciliste = await Sveucilista.create({ naziv, adresa,telefon, email });
     res.status(201).json(sveuciliste);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -4,7 +4,7 @@ const tvrtkaSchema = mongoose.Schema(
   {
     naziv: { type: String, required: true }, 
     adresa: { type: String, required: true }, 
-    kontakt_telefon: { type: String }, 
+    telefon: { type: String }, 
     email: { type: String, required: true, unique: true },
   },
   { timestamps: true } 

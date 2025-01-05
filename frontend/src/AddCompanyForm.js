@@ -11,7 +11,7 @@ const AddCompanyForm = ({ setShowForm, onAddCompany, onUpdateCompany, company })
       setNaziv(company.naziv);
       setAdresa(company.adresa);
       setEmail(company.email);
-      setKontaktTelefon(company.kontakt_telefon);
+      setKontaktTelefon(company.telefon);
     }
   }, [company]);
 
@@ -22,7 +22,7 @@ const AddCompanyForm = ({ setShowForm, onAddCompany, onUpdateCompany, company })
       naziv,
       adresa,
       email,
-      kontakt_telefon: kontaktTelefon,
+      telefon: kontaktTelefon,
     };
 
     if (company) {

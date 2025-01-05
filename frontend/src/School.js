@@ -133,7 +133,7 @@ const Schools = () => {
                 <h2>{university.naziv}</h2>
                 <p>Adresa: {university.adresa}</p>
                 <p>Email: {university.email}</p>
-                <p>Telefon: {university.kontakt_telefon}</p>
+                <p>Telefon: {university.telefon}</p>
                 {userRole === 'admin' && (
                   <>
                     <button onClick={() => { setSelectedUniversity(university); setShowForm(true); }}>

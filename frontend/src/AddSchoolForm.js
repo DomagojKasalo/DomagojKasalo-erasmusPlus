@@ -11,8 +11,8 @@ const AddSchoolForm = ({ setShowForm, onAddUniversity, onUpdateUniversity, unive
       setNaziv(university.naziv);
       setAdresa(university.adresa);
       setEmail(university.email);
-      setKontaktTelefon(university.kontakt_telefon);
-      console.log(university.kontakt_telefon)
+      setKontaktTelefon(university.telefon);
+      console.log(university.telefon)
     }
   }, [university]);
 
@@ -23,7 +23,7 @@ const AddSchoolForm = ({ setShowForm, onAddUniversity, onUpdateUniversity, unive
       naziv,
       adresa,
       email,
-      kontakt_telefon: kontaktTelefon,
+      telefon: kontaktTelefon,
     };
 
     if (university) {
