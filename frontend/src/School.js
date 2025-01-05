@@ -1,106 +1,155 @@
 import React, { useState, useEffect } from 'react';
 import AddSchoolForm from './AddSchoolForm';
-import './School.css'
+import './School&Companies.css';
 import axios from 'axios';
 
 const Schools = () => {
-  const [showForm, setShowForm] = useState(false);
   const [universities, setUniversities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedUniversity, setSelectedUniversity] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const token = localStorage.getItem('token');
 
-  // Fetch universities when the component mounts
   useEffect(() => {
-    const fetchUniversities = async () => {
+    if (token) {
+      const fetchUserRole = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/users/me', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const uloga = response.data?.uloga?.toLowerCase() || 'guest';
+          setUserRole(uloga);
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+          setUserRole('guest');
+        }
+      };
+
+      const fetchUniversities = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/sveucilista', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUniversities(response.data);
+        } catch (error) {
+          console.error('Error fetching universities:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchUserRole();
+      fetchUniversities();
+    }
+  }, [token]);
+
+  const handleDeleteUniversity = async (id) => {
+    if (window.confirm('Are you sure you want to delete this university?')) {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/sveucilista', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        await axios.delete(`http://localhost:5000/api/sveucilista/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        console.log('Fetched universities:', response.data); // Check the structure of the data
-        setUniversities(response.data); // Assuming response.data is the array of universities
+        setUniversities(universities.filter(uni => uni._id !== id));
+        alert('University successfully deleted.');
       } catch (error) {
-        console.error('Greška pri učitavanju sveučilišta:', error);
-        alert('Greška pri učitavanju sveučilišta');
-      } finally {
-        setLoading(false);
+        console.error('Error deleting university:', error);
+        alert('Error deleting university.');
       }
-    };
-
-    fetchUniversities();
-  }, []);
-
-  const handleAddUniversity = async (newUniversity) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/sveucilista', newUniversity, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      alert('Sveučilište uspješno dodano!');
-
-      // Fetch updated universities list after adding a new university
-      const response = await axios.get('http://localhost:5000/api/sveucilista', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log('Updated universities list after adding:', response.data);
-      setUniversities(response.data);
-    } catch (error) {
-      console.error('Greška:', error);
-      alert('Greška prilikom dodavanja sveučilišta');
     }
   };
 
+  const handleAddUniversity = async (newUniversity) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/sveucilista', newUniversity, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUniversities([...universities, response.data]);
+      setShowForm(false);
+      alert('University successfully added.');
+    } catch (error) {
+      console.error('Error adding university:', error);
+      alert('Error adding university.');
+    }
+  };
+
+  const handleUpdateUniversity = async (updatedUniversity) => {
+    try {
+      await axios.put(`http://localhost:5000/api/sveucilista/${updatedUniversity._id}`, updatedUniversity, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUniversities(
+        universities.map(uni => (uni._id === updatedUniversity._id ? updatedUniversity : uni))
+      );
+      setShowForm(false);
+      alert('University successfully updated.');
+    } catch (error) {
+      console.error('Error updating university:', error);
+      alert('Error updating university.');
+    }
+  };
+
+  const filteredUniversities = universities.filter(university =>
+    university.naziv.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className='schools-section'>
-      <h1>Sveučilišta</h1>
-        <div className="add-school-btn">
-         <button onClick={() => setShowForm(true)}>Dodaj Sveučilište</button>
+    <div className="-section">
+      <h1>Popis Sveučilišta</h1>
+
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Pretraži..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      {userRole === 'admin' && (
+        <div className="add-btn">
+          <button onClick={() => { setSelectedUniversity(null); setShowForm(true); }}>
+            Dodaj Sveučilište
+          </button>
         </div>
-    
+      )}
+
       {showForm && (
         <AddSchoolForm
           setShowForm={setShowForm}
           onAddUniversity={handleAddUniversity}
+          onUpdateUniversity={handleUpdateUniversity}
+          university={selectedUniversity}
         />
       )}
-
-      {loading ? (
+      {isLoading ? (
         <p>Učitavanje sveučilišta...</p>
       ) : (
-        <div>
-          {universities.length > 0 ? (
-            <ul>
-              {universities.map((university, index) => (
-                <li key={index}>
-                  <div>
-                    <strong>Naziv:</strong> {university.naziv || 'Unnamed University'}
-                  </div>
-                  <div>
-                    <strong>Adresa:</strong> {university.adresa || 'No address provided'}
-                  </div>
-                  <div>
-                    <strong>Email:</strong> {university.email || 'No email provided'}
-                  </div>
-                  <div>
-                    <strong>Created At:</strong> {new Date(university.createdAt).toLocaleString() || 'No date provided'}
-                  </div>
-                  <div>
-                    <strong>Updated At:</strong> {new Date(university.updatedAt).toLocaleString() || 'No date provided'}
-                  </div>
-                  {/* Add more fields here if needed */}
-                </li>
-              ))}
-            </ul>
+        <div className="-list">
+          {filteredUniversities.length > 0 ? (
+            filteredUniversities.map((university) => (
+              <div key={university._id} className="-item">
+                <h2>{university.naziv}</h2>
+                <p>Adresa: {university.adresa}</p>
+                <p>Email: {university.email}</p>
+                <p>Telefon: {university.kontakt_telefon}</p>
+                {userRole === 'admin' && (
+                  <>
+                    <button onClick={() => { setSelectedUniversity(university); setShowForm(true); }}>
+                      Uredi
+                    </button>
+                    <button onClick={() => handleDeleteUniversity(university._id)}>Briši</button>
+                  </>
+                )}
+              </div>
+            ))
           ) : (
-            <p>No universities available.</p>
+            <p>Nema dostupnih sveučilišta.</p>
           )}
         </div>
       )}
+
     </div>
   );
 };

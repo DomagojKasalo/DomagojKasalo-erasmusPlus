@@ -4,7 +4,7 @@ const sveucilisteSchema = mongoose.Schema(
   {
     naziv: { type: String, required: true }, 
     adresa: { type: String, required: true }, 
-    telefon: { type: String }, 
+    kontakt_telefon: { type: String }, 
     email: { type: String, required: true, unique: true }, 
     //adresa: { type: String, required: true }
   },

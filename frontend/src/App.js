@@ -6,6 +6,7 @@ import Competition from './Competition';
 import NavBar from './NavBar';
 import UserPage from './UserPage';
 import Schools  from './School';
+import Companies from './Companies';
 
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/odjava" element={<Navigate to="/" />} />
               <Route path="/schools" element={<Schools to="/" />} />
+              <Route path="/companies" element={<Companies to="/" />} />
             </>
           ) : (
             <Route path="*" element={<Navigate to="/" />} />

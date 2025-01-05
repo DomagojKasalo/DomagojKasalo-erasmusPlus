@@ -1,46 +1,45 @@
 import React, { useState, useEffect } from 'react';
 
-const AddSchoolForm = ({ setShowForm, onAddUniversity, onUpdateUniversity, university }) => {
+const AddCompanyForm = ({ setShowForm, onAddCompany, onUpdateCompany, company }) => {
   const [naziv, setNaziv] = useState('');
   const [adresa, setAdresa] = useState('');
   const [email, setEmail] = useState('');
   const [kontaktTelefon, setKontaktTelefon] = useState('');
 
   useEffect(() => {
-    if (university) {
-      setNaziv(university.naziv);
-      setAdresa(university.adresa);
-      setEmail(university.email);
-      setKontaktTelefon(university.kontakt_telefon);
-      console.log(university.kontakt_telefon)
+    if (company) {
+      setNaziv(company.naziv);
+      setAdresa(company.adresa);
+      setEmail(company.email);
+      setKontaktTelefon(company.kontakt_telefon);
     }
-  }, [university]);
+  }, [company]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newUniversity = {
+    const newCompany = {
       naziv,
       adresa,
       email,
       kontakt_telefon: kontaktTelefon,
     };
 
-    if (university) {
-      // Editing an existing university
-      await onUpdateUniversity({ ...newUniversity, _id: university._id });
+    if (company) {
+      // Editing an existing company
+      await onUpdateCompany({ ...newCompany, _id: company._id });
     } else {
-      // Adding a new university
-      await onAddUniversity(newUniversity);
+      // Adding a new company
+      await onAddCompany(newCompany);
     }
   };
 
   return (
     <div className="add-competition-form">
-      <h2>{university ? 'Uredi Sveučilište' : 'Dodaj novo sveučilište'}</h2>
+      <h2>{company ? 'Uredi Tvrtku' : 'Dodaj novu tvrtku'}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="naziv">Naziv Sveučilišta:</label>
+          <label htmlFor="naziv">Naziv Tvrtke:</label>
           <input
             type="text"
             id="naziv"
@@ -79,11 +78,12 @@ const AddSchoolForm = ({ setShowForm, onAddUniversity, onUpdateUniversity, unive
             id="kontaktTelefon"
             value={kontaktTelefon}
             onChange={(e) => setKontaktTelefon(e.target.value)}
+            required
           />
         </div>
 
         <div className="form-buttons">
-          <button type="submit" className="button-left">{university ? 'Spremi' : 'Dodaj'}</button>
+          <button type="submit" className="button-left">{company ? 'Spremi' : 'Dodaj'}</button>
           <button type="button" className="button-right" onClick={() => setShowForm(false)}>
             Odustani
           </button>
@@ -93,4 +93,4 @@ const AddSchoolForm = ({ setShowForm, onAddUniversity, onUpdateUniversity, unive
   );
 };
 
-export default AddSchoolForm;
+export default AddCompanyForm;

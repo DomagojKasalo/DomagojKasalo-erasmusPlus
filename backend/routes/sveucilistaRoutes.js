@@ -19,7 +19,7 @@ router.post(
     check('naziv').notEmpty().withMessage('Naziv je obavezan.'),
     check('adresa').notEmpty().withMessage('Adresa je obavezna.'),
     check('email').isEmail().withMessage('Email mora biti ispravan.'),
-    check('telefon').notEmpty().withMessage('Telefon je obavezan.') // Dodano novo polje
+    check('kontakt_telefon').notEmpty().withMessage('Telefon je obavezan.') // Dodano novo polje
   ],
   createSveuciliste
 );
