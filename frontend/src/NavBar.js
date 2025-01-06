@@ -61,6 +61,10 @@ const NavBar = ({ handleLogout }) => {
             <li>
               <Link to="/companies">Tvrtke</Link>
             </li>
+            <li>
+              <Link to="/prijave">Prijave</Link>
+            </li>
+
           </>
         )}
         

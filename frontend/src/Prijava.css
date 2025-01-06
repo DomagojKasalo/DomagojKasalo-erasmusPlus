@@ -1,0 +1,140 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+  }
+  
+  /* Main Section */
+  .prijava-section {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .prijava-section h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Error Messages */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Student Options */
+  .student-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .competition-item {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .competition-item h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .competition-item p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .competition-item button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .competition-item button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  /* Admin Options */
+  .admin-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .prijava-item {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .prijava-item h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .prijava-item p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .prijava-item button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .prijava-item button:nth-child(2) {
+    background-color: #dc3545;
+  }
+  
+  .prijava-item button:hover {
+    background-color: #218838;
+  }
+  
+  .prijava-item button:nth-child(2):hover {
+    background-color: #c82333;
+  }
+  
+  /* Guest Options */
+  .guest-options {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+  }
+  
+  /* General Button Styling */
+  button {
+    cursor: pointer;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  

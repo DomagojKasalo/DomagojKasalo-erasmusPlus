@@ -275,7 +275,7 @@ const Competition = () => {
                 )}
 
                 {/* Gumb za prijavu na natječaj, samo za studente i otvorene natječaje */}
-                {userRole === 'student' && competition.status_natjecaja === 'otvoren' && (
+                {(userRole ==='student') && competition.status_natjecaja === 'otvoren' && (
                   new Date(competition.rok_prijave) >= new Date() ? (
                     <button onClick={() => handleApplyForCompetition(competition._id)}>
                       Prijava

@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import UserPage from './UserPage';
 import Schools  from './School';
 import Companies from './Companies';
+import Prijava from './Prijava';
 
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
               <Route path="/odjava" element={<Navigate to="/" />} />
               <Route path="/schools" element={<Schools to="/" />} />
               <Route path="/companies" element={<Companies to="/" />} />
+              <Route path="/prijave" element={<Prijava />}/>
             </>
           ) : (
             <Route path="*" element={<Navigate to="/" />} />
