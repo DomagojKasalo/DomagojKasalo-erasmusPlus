@@ -51,6 +51,7 @@ const Competition = () => {
     }
   }, [token]);
 
+  // Handle deleting a competition
   const handleDeleteCompetition = async (id) => {
     if (window.confirm('Jesi li siguran da želiš obrisati?')) {
       try {
@@ -66,6 +67,7 @@ const Competition = () => {
     }
   };
 
+  // Handle adding a competition
   const handleAddCompetition = async (newCompetition) => {
     try {
       const response = await axios.post('http://localhost:5000/api/natjecaji', newCompetition, {
@@ -80,6 +82,7 @@ const Competition = () => {
     }
   };
 
+  // Handle updating a competition
   const handleUpdateCompetition = async (event) => {
     event.preventDefault();
 
@@ -139,32 +142,70 @@ const Competition = () => {
     }
   };
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSelectedCompetition({ ...selectedCompetition, [name]: value });
+    
+    // Ako je polje datum, pretvorite ga u ispravan format
+    if (name === 'rok_prijave') {
+      const newDate = new Date(value);
+      setSelectedCompetition({ ...selectedCompetition, [name]: newDate.toISOString().split('T')[0] });
+    } else {
+      setSelectedCompetition({ ...selectedCompetition, [name]: value });
+    }
   };
+  
 
+  // Reset filters
   const handleResetFilter = () => {
     setSearchQuery('');
     setSearchDate('');
     setIsOpenOnly(false);
   };
 
-  const filteredCompetitions = competitions.filter(competition => {
-    let matchesSearchQuery = competition.naziv.toLowerCase().includes(searchQuery.toLowerCase());
+  // Filter competitions based on search and other filters
+  const filteredCompetitions = competitions.filter((competition) => {
+    const matchesSearchQuery = competition.naziv.toLowerCase().includes(searchQuery.toLowerCase());
+  
     let matchesDate = true;
     if (searchDate) {
-      const compDate = new Date(competition.rok_prijave);
-      const filterDate = new Date(searchDate);
-      matchesDate = compDate >= filterDate;
+      // Pretvaramo rok_prijave u Date objekt i uspoređujemo s traženim datumom
+      const compDate = new Date(competition.rok_prijave).toISOString().split('T')[0];
+      matchesDate = compDate === searchDate;
     }
+  
     let matchesStatus = true;
     if (isOpenOnly) {
       matchesStatus = competition.status_natjecaja === 'otvoren';
     }
+  
     return matchesSearchQuery && matchesDate && matchesStatus;
   });
+  
+  const handleApplyForCompetition = async (natjecaj_id) => {
+    try {
+      console.log("Natjecaj ID koji šaljete:", natjecaj_id);
+      const response = await axios.post(
+        `http://localhost:5000/api/prijave/`,  // promijenjena putanja
+        { natjecaj_id: natjecaj_id },         // šaljemo natjecaj_id
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log('Odgovor sa servera:', response); // Ovdje ispisujemo odgovor sa servera
+      alert('Uspješno ste se prijavili na natječaj!');
+    } catch (error) {
+      console.error('Greška pri prijavi na natječaj:', error);
+      if (error.response) {
+        console.error('Podaci odgovora:', error.response.data);  // Ovdje ispisujemo odgovor s greškom
+      }
+      alert('Greška pri prijavi na natječaj.');
+    }
+  };
+  
+  
 
+  
   return (
     <div className="competitions-section">
       <div className="header">
@@ -225,12 +266,26 @@ const Competition = () => {
                 <p>Opis: {competition.opis}</p>
                 <p>Rok prijave: {competition.rok_prijave}</p>
                 <p>Status: {competition.status_natjecaja}</p>
+                <p>Vrsta natječaja: {competition.vrsta_natjecaja}</p>
                 {userRole === 'admin' && (
                   <>
                     <button onClick={() => { setSelectedCompetition(competition); setIsEditing(true); }}>Uredi</button>
                     <button onClick={() => handleDeleteCompetition(competition._id)}>Briši</button>
                   </>
                 )}
+
+                {/* Gumb za prijavu na natječaj, samo za studente i otvorene natječaje */}
+                {userRole === 'student' && competition.status_natjecaja === 'otvoren' && (
+                  new Date(competition.rok_prijave) >= new Date() ? (
+                    <button onClick={() => handleApplyForCompetition(competition._id)}>
+                      Prijava
+                    </button>
+                
+                ) : (
+                  <p className="expired-message">Nažalost, rok za prijavu je prošao.</p>
+                )
+)}
+
               </div>
             ))
           ) : (

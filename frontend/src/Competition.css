@@ -347,3 +347,9 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+.expired-message {
+  color: red;
+  font-weight: bold;
+  font-size: 14px;
+}
