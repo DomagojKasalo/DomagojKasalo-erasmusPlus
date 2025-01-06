@@ -1,46 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './CompetitionResult.css';
 
 const CompetitionResult = () => {
   const [results, setResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true); // Za prikaz učitavanja
-  const [error, setError] = useState(null); // Za greške prilikom učitavanja
-  const token = localStorage.getItem('token'); // Token za autorizaciju
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        setLoading(true); // Pokreni učitavanje
         const response = await axios.get('http://localhost:5000/api/rezultati', {
           headers: {
-            Authorization: `Bearer ${token}`, // Slanje tokena u headeru za autentifikaciju
+            Authorization: `Bearer ${token}`,
           },
         });
-        setResults(response.data); // Postavljanje rezultata
-        setLoading(false); // Završi učitavanje
+        setResults(response.data);
+        setLoading(false);
       } catch (error) {
-        setLoading(false); // Završi učitavanje
-        setError('Error fetching competition results'); // Postavljanje greške
-        console.error('Error fetching competition results:', error);
+        setError('Greška pri dohvaćanju rezultata');
+        setLoading(false);
       }
     };
 
     fetchResults();
   }, [token]);
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Filtriranje rezultata prema imenu ili prezimenu
-  const filteredResults = results.filter(result =>
-    result.ime.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    result.prezime.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Sortiranje rezultata po bodovima (od najvećeg do najmanjeg)
-  const sortedResults = filteredResults.sort((a, b) => b.bodovi - a.bodovi);
 
   if (loading) {
     return <p>Učitavanje rezultata...</p>;
@@ -51,35 +36,27 @@ const CompetitionResult = () => {
   }
 
   return (
-    <div className="competition-result">
-      <h1>Rezultati Natječaja</h1>
-      <input
-        type="text"
-        placeholder="Pretraži studente..."
-        value={searchQuery}
-        onChange={handleSearchChange}
-      />
-      {sortedResults.length === 0 ? (
-        <p>Nema rezultata koji odgovaraju pretrazi.</p>
+    <div className="competition-results">
+      <h1>Rezultati natječaja</h1>
+      {results.length === 0 ? (
+        <p>Nema rezultata za studente sa odobrenim prijavama.</p>
       ) : (
-        <table>
+        <table className="results-table">
           <thead>
             <tr>
-              <th>Ime Studenta</th>
-              <th>Prezime Studenta</th>
-              <th>Email</th>
+              <th>ID korisnika</th>
               <th>Bodovi</th>
-              <th>Poredak</th>
+              <th>Status prijave</th>
+              
             </tr>
           </thead>
           <tbody>
-            {sortedResults.map((result, index) => (
-              <tr key={result.id}>
-                <td>{result.ime}</td>
-                <td>{result.prezime}</td>
-                <td>{result.email}</td>
+            {results.map((result, index) => (
+              <tr key={index}>
+
+                <td>{result.id_prijave.korisnik_id}</td>
                 <td>{result.bodovi}</td>
-                <td>{index + 1}</td> {/* Poredak se može izračunati na temelju bodova */}
+                <td>{result.id_prijave.status_prijave}</td>
               </tr>
             ))}
           </tbody>

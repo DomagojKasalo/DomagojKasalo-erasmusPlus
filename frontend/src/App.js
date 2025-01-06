@@ -8,6 +8,7 @@ import UserPage from './UserPage';
 import Schools  from './School';
 import Companies from './Companies';
 import Prijava from './Prijava';
+import CompetitionResult from './CompetitionResult';
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
           {isAuthenticated ? (
             <>
               <Route path="/natjecaji" element={<Competition />} />
+              <Route path="/competition-result" element={<CompetitionResult />} />
               <Route path="/users" element={<UserPage />} /> 
               <Route path="/profile" element={<Profile />} />
               <Route path="/odjava" element={<Navigate to="/" />} />

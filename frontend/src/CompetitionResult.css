@@ -1,0 +1,74 @@
+.competition-result {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .competition-result h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: #ccc;
+  }
+  
+  .search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .results-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .results-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .results-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  @media (max-width: 768px) {
+    .results-table {
+      font-size: 0.9rem;
+    }
+  
+    .search-input {
+      width: 90%;
+    }
+  }
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .results-table th, .results-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .results-table th {
+    background-color: #f2f2f2;
+  }
+  
+  

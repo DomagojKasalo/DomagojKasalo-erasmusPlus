@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './NavBar.css';
+import CompetitionResult from './CompetitionResult';
 
 const NavBar = ({ handleLogout }) => {
   const [userRole, setUserRole] = useState(null);
@@ -17,13 +18,17 @@ const NavBar = ({ handleLogout }) => {
               Authorization: `Bearer ${token}`,
             },
           });
-
-          setUserRole(response.data.uloga);
+  
+          const role = response.data.uloga;
+          setUserRole(role);  // Postavite ulogu u stanje
+  
+          // Spremite ulogu u localStorage
+          localStorage.setItem('role', role);  
         } catch (error) {
           console.error('Greška pri dohvaćanju podataka o korisniku:', error);
         }
       };
-
+  
       fetchUserRole();
     }
   }, [token]);
