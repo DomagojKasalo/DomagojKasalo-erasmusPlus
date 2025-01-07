@@ -35,6 +35,17 @@ const seedKorisnici = async (sveucilista) => [
     sveuciliste_id: sveucilista[0]._id,
   },
   {
+    ime: 'Maja',
+    prezime: 'Majić',
+    email: 'maja.majic@example.com',
+    lozinka: await bcrypt.hash('password123', 10),
+    spol: 'Ž',
+    uloga: 'student',
+    adresa: 'Ulica Domovinskog rata 3',
+    telefon: '099 134 4789',
+    sveuciliste_id: sveucilista[0]._id,
+  },
+  {
     ime: 'Ivan',
     prezime: 'Horvat',
     email: 'ivan.horvat@example.com',
