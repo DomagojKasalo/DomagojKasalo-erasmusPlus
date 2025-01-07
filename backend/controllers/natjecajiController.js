@@ -73,13 +73,14 @@ const createNatjecaj = async (req, res) => {
 // Ažuriraj natječaj
 const updateNatjecaj = async (req, res) => {
   // Validacija unosa
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { naziv, opis, vrsta_natjecaja, rok_prijave, tvrtka_id, sveuciliste_id } = req.body;
-
+  const { naziv, opis, vrsta_natjecaja, rok_prijave, tvrtka_id, sveuciliste_id,status_natjecaja} = req.body;
+  console.log(req.body)
   try {
     // Provjeri postoji li tvrtka s danim ID-om
     if (tvrtka_id) {
@@ -100,7 +101,7 @@ const updateNatjecaj = async (req, res) => {
     // Ažuriraj natječaj
     const updatedNatjecaj = await Natjecaji.findByIdAndUpdate(
       req.params.id,
-      { naziv, opis, vrsta_natjecaja, rok_prijave, tvrtka_id, sveuciliste_id },
+      { naziv, opis, vrsta_natjecaja, rok_prijave, tvrtka_id, sveuciliste_id ,status_natjecaja},
       { new: true }
     );
 
