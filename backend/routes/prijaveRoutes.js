@@ -49,6 +49,7 @@ router.put(
       .isIn(['na čekanju', 'odobreno', 'odbijeno'])
       .withMessage('Status prijave mora biti: "na čekanju", "odobreno" ili "odbijeno".'),
   ],
+
   updatePrijavaStatus
 );
 

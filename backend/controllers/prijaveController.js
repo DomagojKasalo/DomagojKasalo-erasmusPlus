@@ -64,6 +64,11 @@ const updatePrijavaStatus = async (req, res) => {
     if (!prijava) {
       return res.status(404).json({ message: 'Prijava nije pronađena.' });
     }
+    prijava.status_prijave = req.body.status_prijave;
+    if (req.body.bodovi !== undefined) { 
+      prijava.bodovi = req.body.bodovi; 
+    }
+    await prijava.save();
     res.status(200).json(prijava);
   } catch (error) {
     res.status(500).json({ error: error.message });

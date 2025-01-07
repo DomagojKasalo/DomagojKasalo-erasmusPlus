@@ -9,8 +9,9 @@ const Prijava = () => {
   const [userRole, setUserRole] = useState(null);
   const [formError, setFormError] = useState('');
   const [token] = useState(localStorage.getItem('token'));
+  const [points, setPoints] = useState({});
+  const [showPointsInput, setShowPointsInput] = useState({});
 
-  // Fetch competitions, applications, and user role
   useEffect(() => {
     const fetchCompetitions = async () => {
       try {
@@ -54,28 +55,27 @@ const Prijava = () => {
 
   const handleApply = async (event) => {
     event.preventDefault();
-  
+
     if (!selectedCompetition) {
       setFormError('Please select a competition.');
       return;
     }
-  
+
     try {
       await axios.post(
         'http://localhost:5000/api/prijave',
         { natjecaj_id: selectedCompetition },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      // Get student data after successful application
+
       const userResponse = await axios.get('http://localhost:5000/api/users/me', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       const studentData = userResponse.data;
-  
+
       alert(`Successfully applied to the competition!\nStudent: ${studentData.username}\nCompetition: ${selectedCompetition}`);
-      
+
       setFormError('');
       setSelectedCompetition('');
     } catch (error) {
@@ -83,30 +83,31 @@ const Prijava = () => {
       console.error('Error applying:', error);
     }
   };
-  
 
-  const handleStatusUpdate = async (prijavaId, status) => {
+  const handleStatusUpdate = async (prijavaId, status, bodovi) => {
     try {
       await axios.put(
         `http://localhost:5000/api/prijave/${prijavaId}`,
-        { status_prijave: status },
+        { status_prijave: status, bodovi },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-  
+
       const statusMessage = status === 'odobreno' ? 'Zahtjev je odobren!' : 'Zahtjev je odbijen!';
-      alert(statusMessage);  // Prikazivanje odgovarajuće poruke
-  
+      alert(statusMessage);
+
       setPrijave(prijave.map((prijava) =>
-        prijava._id === prijavaId ? { ...prijava, status_prijave: status } : prijava
+        prijava._id === prijavaId ? { ...prijava, status_prijave: status, bodovi } : prijava
       ));
+
+      setPoints((prevPoints) => ({ ...prevPoints, [prijavaId]: '' }));
+      setShowPointsInput((prevShowPointsInput) => ({ ...prevShowPointsInput, [prijavaId]: false }));
     } catch (error) {
       alert('Error updating application status.');
       console.error('Error updating status:', error);
     }
   };
-  
 
   const renderCompetitionsForStudent = () => {
     return competitions.map((competition) => (
@@ -124,34 +125,44 @@ const Prijava = () => {
     ));
   };
 
- const renderPrijaveForAdmin = () => {
-  return prijave.map((prijava) => (
-    <div key={prijava._id} className="prijava-item">
-      {prijava.natjecaj_id ? (
-        <>
-          <h3>{prijava.natjecaj_id.naziv}</h3>
-          <p><strong>Student:</strong> {prijava.korisnik_id.ime} {prijava.korisnik_id.prezime}</p> 
-          <p><strong>Email:</strong> {prijava.korisnik_id.email}</p>  
-          <p><strong>Status:</strong> {prijava.status_prijave}</p> 
-        </>
-      ) : (
-        <p>Competition data not available</p>
-      )}
-      <div className="status-buttons">
-        <button onClick={() => handleStatusUpdate(prijava._id, 'odobreno')}>odobreno</button>
-        <button onClick={() => handleStatusUpdate(prijava._id, 'odbijeno')}>odbijeno</button>
+  const renderPrijaveForAdmin = () => {
+    return prijave.map((prijava) => (
+      <div key={prijava._id} className="prijava-item">
+        {prijava.natjecaj_id ? (
+          <>
+            <h3>{prijava.natjecaj_id.naziv}</h3>
+            <p><strong>Student:</strong> {prijava.korisnik_id.ime} {prijava.korisnik_id.prezime}</p>
+            <p><strong>Email:</strong> {prijava.korisnik_id.email}</p>
+            <p><strong>Status:</strong> {prijava.status_prijave}</p>
+            <p><strong>Bodovi:</strong> {prijava.bodovi}</p> {/* Display points */}
+          </>
+        ) : (
+          <p>Competition data not available</p>
+        )}
+        <div className="status-buttons">
+          {showPointsInput[prijava._id] ? (
+            <>
+              <input
+                type="number"
+                placeholder="Enter points"
+                value={points[prijava._id] || ''}
+                onChange={(e) => setPoints({ ...points, [prijava._id]: e.target.value })}
+              />
+              <button onClick={() => handleStatusUpdate(prijava._id, 'odobreno', points[prijava._id])}>Submit Points</button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => setShowPointsInput({ ...showPointsInput, [prijava._id]: true })}>odobreno</button>
+              <button onClick={() => handleStatusUpdate(prijava._id, 'odbijeno')}>odbijeno</button>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  ));
-};
-
-  
-  
-  
+    ));
+  };
 
   return (
     <div className="prijava-section">
-
       {formError && <p className="error">{formError}</p>}
 
       {userRole === 'student' ? (
