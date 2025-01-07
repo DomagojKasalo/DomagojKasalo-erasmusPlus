@@ -16,6 +16,7 @@ const Competition = () => {
 
   // Filter settings
   const [isOpenOnly, setIsOpenOnly] = useState(false);
+  const [isClosedOnly, setIsClosedOnly] = useState(false);
   const [searchDate, setSearchDate] = useState('');
 
   useEffect(() => {
@@ -161,6 +162,7 @@ const Competition = () => {
     setSearchQuery('');
     setSearchDate('');
     setIsOpenOnly(false);
+    setIsClosedOnly(false);
   };
 
   // Filter competitions based on search and other filters
@@ -177,6 +179,10 @@ const Competition = () => {
     let matchesStatus = true;
     if (isOpenOnly) {
       matchesStatus = competition.status_natjecaja === 'otvoren';
+    }
+
+    if (isClosedOnly) {
+      matchesStatus = competition.status_natjecaja === 'zatvoren';
     }
   
     return matchesSearchQuery && matchesDate && matchesStatus;
@@ -203,9 +209,6 @@ const Competition = () => {
     }
   };
   
-  
-
-  
   return (
     <div className="competitions-section">
       <div className="header">
@@ -222,32 +225,52 @@ const Competition = () => {
       </div>
 
       <div className="filters">
-        {userRole === 'student' || userRole === 'nastavnik' ? (
-          <>
-            <div>
-              <label htmlFor="searchDate">Pretraži po datumu:</label>
-              <input
-                type="date"
-                id="searchDate"
-                value={searchDate}
-                onChange={(e) => setSearchDate(e.target.value)}
-              />
-            </div>
-            <div className="checkbox-container">
-              <label htmlFor="openOnly">Prikazuj samo otvorene:</label>
-              <input
-                type="checkbox"
-                id="openOnly"
-                checked={isOpenOnly}
-                onChange={() => setIsOpenOnly(!isOpenOnly)}
-              />
-            </div>
-            <div>
-              <button onClick={handleResetFilter}>Ponisti filtere</button>
-            </div>
-          </>
-        ) : null}
+  {/* Filters for student and nastavnik */}
+  {(userRole === 'student' || userRole === 'nastavnik') && (
+    <>
+      <div>
+        <label htmlFor="searchDate">Pretraži po datumu:</label>
+        <input
+          type="date"
+          id="searchDate"
+          value={searchDate}
+          onChange={(e) => setSearchDate(e.target.value)}
+        />
       </div>
+      <div className="checkbox-container">
+        <label htmlFor="openOnly">Prikazuj samo otvorene:</label>
+        <input
+          type="checkbox"
+          id="openOnly"
+          checked={isOpenOnly}
+          onChange={() => setIsOpenOnly(!isOpenOnly)}
+        />
+      </div>
+      <div>
+        <button onClick={handleResetFilter}>Ponisti filtere</button>
+      </div>
+    </>
+  )}
+
+  {/* Filters for admin */}
+  {userRole === 'admin' && (
+    <>
+      <div className="checkbox-container">
+        <label htmlFor="closedOnly">Prikazuj samo zatvorene:</label>
+        <input
+          type="checkbox"
+          id="closedOnly"
+          checked={isClosedOnly}
+          onChange={() => setIsClosedOnly(!isClosedOnly)}
+        />
+      </div>
+      <div>
+        <button onClick={handleResetFilter}>Ponisti filtere</button>
+      </div>
+    </>
+  )}
+</div>
+
 
       {userRole === 'admin' && (
         <div className="add-competition-btn">
