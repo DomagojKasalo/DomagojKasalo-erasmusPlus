@@ -9,6 +9,7 @@ import Schools  from './School';
 import Companies from './Companies';
 import Prijava from './Prijava';
 import CompetitionResult from './CompetitionResult';
+import Home from './Home';
 
 
 const App = () => {
@@ -35,9 +36,10 @@ const App = () => {
       {isAuthenticated && <NavBar handleLogout={handleLogout} />}
       <div className="content" style={{ paddingTop: isAuthenticated ? '60px' : '0px' }}>
         <Routes>
-          <Route path="/" element={<LoginSignup onLogin={handleLogin} />} />
+          <Route path="/login" element={<LoginSignup onLogin={handleLogin} />} />
           {isAuthenticated ? (
             <>
+              <Route path="/" element={<Home />} />
               <Route path="/natjecaji" element={<Competition />} />
               <Route path="/competition-result" element={<CompetitionResult />} />
               <Route path="/users" element={<UserPage />} /> 

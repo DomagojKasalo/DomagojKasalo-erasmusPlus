@@ -39,9 +39,17 @@ const NavBar = ({ handleLogout }) => {
     navigate('/');
   };
 
+  // Dodan onClick handler za Erasmus
+  const goToHomePage = () => {
+    navigate('/');
+  };
+
   return (
     <nav className="navbar">
-      <div className="navbar-title">Erasmus</div>
+      {/* Dodan onClick handler na Erasmus */}
+      <div className="navbar-title" onClick={goToHomePage} style={{ cursor: 'pointer' }}>
+        Erasmus
+      </div>
       <ul className="navbar-links">
         <li>
           <Link to="/natjecaji">Svi natječaji</Link>
@@ -68,7 +76,6 @@ const NavBar = ({ handleLogout }) => {
             <li>
               <Link to="/prijave">Prijave</Link>
             </li>
-
           </>
         )}
         
