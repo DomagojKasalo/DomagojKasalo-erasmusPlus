@@ -5,21 +5,18 @@ import Profile from './Profile';
 import Competition from './Competition';
 import NavBar from './NavBar';
 import UserPage from './UserPage';
-import Schools  from './School';
+import Schools from './School';
 import Companies from './Companies';
 import Prijava from './Prijava';
 import CompetitionResult from './CompetitionResult';
 import Home from './Home';
-
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
+    setIsAuthenticated(!!token); // Provjeri postoji li token
   }, []);
 
   const handleLogin = () => {
@@ -36,21 +33,24 @@ const App = () => {
       {isAuthenticated && <NavBar handleLogout={handleLogout} />}
       <div className="content" style={{ paddingTop: isAuthenticated ? '60px' : '0px' }}>
         <Routes>
-          <Route path="/login" element={<LoginSignup onLogin={handleLogin} />} />
+          {/* Ruta za Login */}
+          <Route path="/" element={<LoginSignup onLogin={handleLogin} />} />
+          
+          {/* Ako je autentificiran, omogući pristup ostalim rutama */}
           {isAuthenticated ? (
             <>
-              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} /> {/* Home na /home */}
               <Route path="/natjecaji" element={<Competition />} />
               <Route path="/competition-result" element={<CompetitionResult />} />
-              <Route path="/users" element={<UserPage />} /> 
+              <Route path="/users" element={<UserPage />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/odjava" element={<Navigate to="/" />} />
-              <Route path="/schools" element={<Schools to="/" />} />
-              <Route path="/companies" element={<Companies to="/" />} />
-              <Route path="/prijave" element={<Prijava />}/>
+              <Route path="/schools" element={<Schools />} />
+              <Route path="/companies" element={<Companies />} />
+              <Route path="/prijave" element={<Prijava />} />
+              <Route path="*" element={<Navigate to="/home" />} /> 
             </>
           ) : (
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to="/" />} /> 
           )}
         </Routes>
       </div>

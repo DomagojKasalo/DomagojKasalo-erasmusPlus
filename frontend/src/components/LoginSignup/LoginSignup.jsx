@@ -142,7 +142,7 @@ const LoginSignup = ({ onLogin }) => {
         setSuccess("Prijava je uspješna!");
         setError(null);
         onLogin();
-        navigate("/");
+        navigate("/home");
       } else {
         setError(data.message || "Došlo je do pogreške");
       }

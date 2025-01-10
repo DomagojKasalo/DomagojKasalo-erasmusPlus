@@ -39,14 +39,12 @@ const NavBar = ({ handleLogout }) => {
     navigate('/');
   };
 
-  // Dodan onClick handler za Erasmus
   const goToHomePage = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   return (
     <nav className="navbar">
-      {/* Dodan onClick handler na Erasmus */}
       <div className="navbar-title" onClick={goToHomePage} style={{ cursor: 'pointer' }}>
         Erasmus
       </div>

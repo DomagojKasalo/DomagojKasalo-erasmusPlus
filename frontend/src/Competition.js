@@ -397,7 +397,10 @@ const Competition = () => {
       )}
 
       {showForm && (
-        <AddCompetitionForm onAddCompetition={handleAddCompetition} />
+        <AddCompetitionForm 
+          setShowForm={setShowForm} // Prosljeđivanje funkcije
+          onAddCompetition={handleAddCompetition} 
+        />
       )}
     </div>
   );
