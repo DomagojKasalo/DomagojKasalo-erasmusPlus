@@ -13,6 +13,8 @@ const Competition = () => {
   const token = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
   const [formErrors, setFormErrors] = useState({});
+  const [userApplications, setUserApplications] = useState([]);
+
 
   // Filter settings
   const [isOpenOnly, setIsOpenOnly] = useState(false);
@@ -198,7 +200,8 @@ const Competition = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log('Odgovor sa servera:', response); // Ovdje ispisujemo odgovor sa servera
+      console.log('Odgovor sa servera:', response);
+      setUserApplications([...userApplications, { natjecajId: natjecaj_id }]); // Ovdje ispisujemo odgovor sa servera
       alert('Uspješno ste se prijavili na natječaj!');
     } catch (error) {
       console.error('Greška pri prijavi na natječaj:', error);

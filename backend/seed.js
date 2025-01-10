@@ -73,7 +73,7 @@ const seedNatjecaji = async (sveucilista, tvrtke) => [
     naziv: 'Erasmus+ natječaj',
     opis: 'Natječaj za mobilnost studenata.',
     vrsta_natjecaja: 'mobilnost',
-    rok_prijave: new Date('2025-03-15'),
+    rok_prijave: new Date('2025-01-9'),
     sveuciliste_id: sveucilista[0]._id,
     tvrtka_id: tvrtke[0]._id,
   },
