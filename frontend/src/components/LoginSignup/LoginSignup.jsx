@@ -152,14 +152,52 @@ const LoginSignup = ({ onLogin }) => {
   };
 
   return (
-    <div className="container">
-      <div className="header">
-        <div className="text">{action === "Login" ? "Login" : "Sign Up"}</div>
-        <div className="underline"></div>
-      </div>
-      <div className="inputs">
-        {action === "Sign Up" && (
-          <>
+    <>
+      {action === "Login" && (
+        <div className="login-container">
+          <div className="header">
+            <div className="text">Login</div>
+            <div className="underline"></div>
+          </div>
+          <div className="inputs">
+            <div className="input">
+              <img src={email_icon} alt="" />
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input">
+              <img src={password_icon} alt="" />
+              <input
+                type="password"
+                placeholder="Password"
+                name="lozinka"
+                value={formData.lozinka}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+          {error && <div className="error">{error}</div>}
+          {success && <div className="success">{success}</div>}
+          <div className="submit-container">
+            <div className="submit-inline">
+              <div className="submit" onClick={handleLogin}>Prijava</div>
+              <div className="submit" onClick={() => setAction("Sign Up")}>Registracija</div>
+            </div>
+          </div>
+        </div>
+      )}
+      {action === "Sign Up" && (
+        <div className="signup-container">
+          <div className="header">
+            <div className="text">Sign Up</div>
+            <div className="underline"></div>
+          </div>
+          <div className="inputs">
             <div className="input">
               <img src={user_icon} alt="" />
               <input
@@ -230,64 +268,29 @@ const LoginSignup = ({ onLogin }) => {
                 onChange={handleInputChange}
               />
             </div>
-          </>
-        )}
-        <div className="input">
-          <img src={email_icon} alt="" />
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="input">
-          <img src={password_icon} alt="" />
-          <input
-            type="password"
-            placeholder="Password"
-            name="lozinka"
-            value={formData.lozinka}
-            onChange={handleInputChange}
-          />
-        </div>
-        {action === "Sign Up" && (
-          <select
-            className="role-dropdown"
-            name="role"
-            value={formData.role}
-            onChange={handleInputChange}
-          >
-            <option value="" disabled>Odaberi ulogu</option>
-            <option value="nastavnik">Nastavnik</option>
-            <option value="student">Student</option>
-            <option value="admin">Admin</option>
-          </select>
-        )}
-      </div>
-
-      {error && <div className="error">{error}</div>}
-      {success && <div className="success">{success}</div>}
-
-      <div className="submit-container">
-        <div className="submit-inline">
-          {action === "Login" && (
-            <>
-              <div className="submit" onClick={() => setAction("Sign Up")}>Registracija</div>
-              <div className="submit" onClick={handleLogin}>Prijava</div>
-            </>
-          )}
-          {action === "Sign Up" && (
-            <>
+            <select
+              className="role-dropdown"
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+            >
+              <option value="" disabled>Odaberi ulogu</option>
+              <option value="nastavnik">Nastavnik</option>
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          {error && <div className="error">{error}</div>}
+          {success && <div className="success">{success}</div>}
+          <div className="submit-container">
+            <div className="submit-inline">
               <div className="submit" onClick={handleRegister}>Registracija</div>
               <div className="submit gray" onClick={() => setAction("Login")}>Povratak na login</div>
-            </>
-          )}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
-
 export default LoginSignup;
