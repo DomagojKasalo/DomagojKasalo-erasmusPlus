@@ -104,6 +104,7 @@ const Competition = () => {
       const selectedDate = new Date(selectedCompetition.rok_prijave);
       if (selectedDate < currentDate) {
         errors.rok_prijave = 'Datum prijave je u prošlosti.';
+        
       }
     }
 
@@ -281,44 +282,51 @@ const Competition = () => {
         </div>
       )}
 
-      {isLoading ? (
-        <p>Učitavam natječaje...</p>
-      ) : (
-        <div className="competitions-list">
-          {filteredCompetitions.length > 0 ? (
-            filteredCompetitions.map((competition) => (
-              <div key={competition._id} className="competition-item">
-                <h2>{competition.naziv}</h2>
-                <p>Opis: {competition.opis}</p>
-                <p>Rok prijave: {competition.rok_prijave}</p>
-                <p>Status: {competition.status_natjecaja}</p>
-                <p>Vrsta natječaja: {competition.vrsta_natjecaja}</p>
-                {userRole === 'admin' && (
-                  <>
-                    <button onClick={() => { setSelectedCompetition(competition); setIsEditing(true); }}>Uredi</button>
-                    <button onClick={() => handleDeleteCompetition(competition._id)}>Briši</button>
-                  </>
-                )}
+{isLoading ? (
+  <p>Učitavam natječaje...</p>
+) : (
+  <div className="competitions-list">
+    {filteredCompetitions.length > 0 ? (
+      filteredCompetitions.map((competition) => {
+        const currentDate = new Date();
+        const applicationDeadline = new Date(competition.rok_prijave);
 
-                {/* Gumb za prijavu na natječaj, samo za studente i otvorene natječaje */}
-                {(userRole ==='student') && competition.status_natjecaja === 'otvoren' && (
-                  new Date(competition.rok_prijave) >= new Date() ? (
-                    <button onClick={() => handleApplyForCompetition(competition._id)}>
-                      Prijava
-                    </button>
-                
-                ) : (
-                  <p className="expired-message">Nažalost, rok za prijavu je prošao.</p>
-                )
+        if (applicationDeadline < currentDate) {
+          competition.status_natjecaja = 'zatvoren';
+        }
+
+        return (
+          <div key={competition._id} className="competition-item">
+            <h2>{competition.naziv}</h2>
+            <p>Opis: {competition.opis}</p>
+            <p>Rok prijave: {competition.rok_prijave}</p>
+            <p>Status: {competition.status_natjecaja}</p>
+            <p>Vrsta natječaja: {competition.vrsta_natjecaja}</p>
+            {userRole === 'admin' && (
+              <>
+                <button onClick={() => { setSelectedCompetition(competition); setIsEditing(true); }}>Uredi</button>
+                <button onClick={() => handleDeleteCompetition(competition._id)}>Briši</button>
+              </>
+            )}
+
+            {userRole === 'student' && (
+              competition.status_natjecaja === 'otvoren' && applicationDeadline >= currentDate ? (
+                <button onClick={() => handleApplyForCompetition(competition._id)}>
+                  Prijava
+                </button>
+              ) : (
+                <p className="expired-message">Nažalost, rok za prijavu je prošao.</p>
+              )
+            )}
+          </div>
+        );
+      })
+    ) : (
+      <p>No competitions found</p>
+    )}
+  </div>
 )}
 
-              </div>
-            ))
-          ) : (
-            <p>Nema natječaja.</p>
-          )}
-        </div>
-      )}
 
       {isEditing && selectedCompetition && (
         <div className="edit-section">
