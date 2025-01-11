@@ -179,6 +179,211 @@
 }
 
 .filters button:hover {
-  background: linear-gradient(145deg, #2575fc);
+  background-color: #0056b3;
   transform: translateY(-4px);
 }
+
+
+.edit-save-btn,
+.edit-cancel-btn {
+  background: linear-gradient(145deg, #2575fc, #1e62d0); /* Plavi gradient */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.edit-save-btn:hover,
+.edit-cancel-btn:hover {
+  background: linear-gradient(145deg, #1e62d0, #1854b5); /* Tamnija nijansa na hover */
+  transform: scale(1.05); /* Blago povećanje */
+}
+/* Sekcija sa natječajima */
+.competitions-section {
+  padding: 40px;
+  background: linear-gradient(145deg, #e0e5ec, #ffffff);
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.competitions-section:hover {
+  transform: translateY(-4px); /* Lagano podizanje na hover */
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.15), -8px -8px 16px rgba(255, 255, 255, 0.5);
+}
+
+/* Lista natječaja */
+.competitions-list {
+  display: flex;
+  flex-direction: column; /* Postavi u vertikalnu kolonu */
+  align-items: flex-start; /* Poravnaj sve elemente na desnu stranu */
+  gap: 20px;
+  margin-right: 20px; /* Dodaj malu udaljenost s desne strane */
+}
+
+/* Natječaj sa stilovima */
+.competition-item {
+  padding: 20px;
+  width: 100%; /* Puni širinu */
+  max-width: 800px; /* Postavi širinu pravokutnika */
+  border-radius: 16px;
+  background: #e0e5ec;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s ease;
+  margin-bottom: 20px; /* Razmak između natječaja */
+}
+
+.competition-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.competition-item h2 {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.competition-item p {
+  color: #555;
+  font-size: 1rem;
+}
+
+
+/* Admin akcije */
+.admin-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.admin-actions button {
+  background: linear-gradient(145deg, #2dce89, #2abf71);
+  color: white;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transition: 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.admin-actions button:hover {
+  background: linear-gradient(145deg, #2abf71, #249d5d);
+  transform: scale(1.05); /* Lagano povećanje gumba */
+}
+
+/* Pretraga */
+.search-bar {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar input {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #e0e5ec;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transition: box-shadow 0.3s, transform 0.2s;
+  margin-bottom: 20px;
+}
+
+.search-bar input:focus {
+  box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.1), inset -6px -6px 12px rgba(255, 255, 255, 0.5);
+  transform: scale(1.02); /* Suptilna animacija povećanja */
+  outline: none;
+}
+
+/* Dugme za dodavanje natječaja */
+.add-competition-btn {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+
+}
+
+.add-competition-btn button {
+  background: linear-gradient(145deg, #2575fc);
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s, 0.3s;
+}
+
+.add-competition-btn button:hover {
+  background: linear-gradient(145deg, #2575fc);
+  transform: translateY(-4px); /* Lagano podizanje gumba */
+}
+
+/* Filter sekcija */
+.filters-container {
+  background: #f8f9fc;
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.5);
+  padding: 30px;
+  margin-bottom: 40px;
+}
+
+.filters-container h2 {
+  text-align: center;
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filters input,
+.filters select {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #e0e5ec;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transition: box-shadow 0.3s;
+}
+
+.filters input:focus,
+.filters select:focus {
+  box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.1), inset -6px -6px 12px rgba(255, 255, 255, 0.5);
+  outline: none;
+}
+
+.filters button {
+  padding: 14px 28px;
+  background: linear-gradient(145deg, #2575fc);
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s, 0.3s;
+  cursor: pointer;
+}
+
+.filters button:hover {
+  background-color: #0056b3;
+  transform: translateY(-4px);
+}
+
