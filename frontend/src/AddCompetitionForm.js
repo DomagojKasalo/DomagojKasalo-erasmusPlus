@@ -7,6 +7,7 @@ const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
   const [rokPrijave, setRokPrijave] = useState('');
   const [statusNatjecaja, setStatusNatjecaja] = useState('otvoren'); // Default to 'otvoren'
   const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,9 +46,11 @@ const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
     // If there are validation errors, set the error state
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setGeneralError('Molimo ispunite sva obavezna polja.');
       return; // Don't submit if there are errors
     }
 
+    setGeneralError(''); // Clear the general error if no errors
     const newCompetition = {
       naziv,
       opis,
@@ -70,6 +73,11 @@ const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
     <div className="add-competition-form">
       <h2>Dodaj novi natječaj</h2>
       <form onSubmit={handleSubmit}>
+        {generalError && (
+          <div style={{ color: 'red', marginBottom: '10px' }}>
+            {generalError}
+          </div>
+        )}
         <div>
           <label htmlFor="naziv">Naziv:</label>
           <input

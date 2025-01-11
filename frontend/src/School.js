@@ -46,13 +46,13 @@ const Schools = () => {
   }, [token]);
 
   const handleDeleteUniversity = async (id) => {
-    if (window.confirm('Are you sure you want to delete this university?')) {
+    if (window.confirm('Jeste li sigurni da želite obrisati ovo sveučilište?')) {
       try {
         await axios.delete(`http://localhost:5000/api/sveucilista/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUniversities(universities.filter(uni => uni._id !== id));
-        alert('University successfully deleted.');
+        alert('Sveučilište je uspješno obrisano.');
       } catch (error) {
         console.error('Error deleting university:', error);
         alert('Error deleting university.');
@@ -67,7 +67,7 @@ const Schools = () => {
       });
       setUniversities([...universities, response.data]);
       setShowForm(false);
-      alert('University successfully added.');
+      alert('Sveučilište je uspješno dodano.');
     } catch (error) {
       console.error('Error adding university:', error);
       alert('Error adding university.');
@@ -83,7 +83,7 @@ const Schools = () => {
         universities.map(uni => (uni._id === updatedUniversity._id ? updatedUniversity : uni))
       );
       setShowForm(false);
-      alert('University successfully updated.');
+      alert('Sveučilište je uspješno ažurirano.');
     } catch (error) {
       console.error('Error updating university:', error);
       alert('Error updating university.');

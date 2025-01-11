@@ -45,13 +45,13 @@ const Companies = () => {
   }, [token]);
 
   const handleDeleteCompany = async (id) => {
-    if (window.confirm('Are you sure you want to delete this company?')) {
+    if (window.confirm('Jeste li sigurni da želite obrisati ovu tvrtku?')) {
       try {
         await axios.delete(`http://localhost:5000/api/tvrtke/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCompanies(companies.filter(company => company._id !== id));
-        alert('Company successfully deleted.');
+        alert('Tvrtka je uspješno obrisana.');
       } catch (error) {
         console.error('Error deleting company:', error);
         alert('Error deleting company.');
@@ -66,7 +66,7 @@ const Companies = () => {
       });
       setCompanies([...companies, response.data]);
       setShowForm(false);
-      alert('Company successfully added.');
+      alert('Tvrtka je uspješno dodana.');
     } catch (error) {
       console.error('Error adding company:', error);
       alert('Error adding company.');
@@ -82,7 +82,7 @@ const Companies = () => {
         companies.map(company => (company._id === updatedCompany._id ? updatedCompany : company))
       );
       setShowForm(false);
-      alert('Company successfully updated.');
+      alert('Tvrtka je uspješno ažurirana.');
     } catch (error) {
       console.error('Error updating company:', error);
       alert('Error updating company.');
