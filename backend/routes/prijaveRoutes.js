@@ -48,6 +48,11 @@ router.put(
     check('status_prijave')
       .isIn(['na čekanju', 'odobreno', 'odbijeno'])
       .withMessage('Status prijave mora biti: "na čekanju", "odobreno" ili "odbijeno".'),
+    check('bodovi')
+      .isNumeric()
+      .withMessage('Bodovi moraju biti brojčana vrijednost.')
+      .isInt({ min: 0, max: 100 })
+      .withMessage('Bodovi moraju biti u rasponu od 0 do 100.')
   ],
 
   updatePrijavaStatus

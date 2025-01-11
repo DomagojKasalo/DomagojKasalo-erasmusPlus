@@ -53,11 +53,11 @@ const NavBar = ({ handleLogout }) => {
           <Link to="/natjecaji">Svi natječaji</Link>
         </li>
         {/* Nastavnik i admin opcija */}
-        {(userRole === 'nastavnik' || userRole === 'admin') && (
+        {/* {(userRole === 'nastavnik' || userRole === 'admin') && ( */}
           <li>
             <Link to="/competition-result">Rezultati</Link>
           </li>
-        )}
+        {/* )} */}
 
         {/* Admin opcije */}
         {userRole === 'admin' && (

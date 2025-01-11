@@ -24,6 +24,6 @@ router.post(
 );
 
 // Dohvat svih rezultata (admin i nastavnik)
-router.get('/', protect, restrictTo('admin', 'nastavnik'), getAllRezultati);
+router.get('/',protect, restrictTo('admin','student','nastavnik'), getAllRezultati);
 
 module.exports = router;

@@ -93,7 +93,12 @@ const Prijava = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+      await axios.post(`http://localhost:5000/api/rezultati`,
+        { id_prijave: prijavaId, bodovi },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const statusMessage = status === 'odobreno' ? 'Zahtjev je odobren!' : 'Zahtjev je odbijen!';
       alert(statusMessage);
 
@@ -104,7 +109,7 @@ const Prijava = () => {
       setPoints((prevPoints) => ({ ...prevPoints, [prijavaId]: '' }));
       setShowPointsInput((prevShowPointsInput) => ({ ...prevShowPointsInput, [prijavaId]: false }));
     } catch (error) {
-      alert('Error updating application status.');
+      alert("Bodovi moraju biti u rasponu 0 do 100");
       console.error('Error updating status:', error);
     }
   };
@@ -148,14 +153,22 @@ const Prijava = () => {
                 value={points[prijava._id] || ''}
                 onChange={(e) => setPoints({ ...points, [prijava._id]: e.target.value })}
               />
-              <button onClick={() => handleStatusUpdate(prijava._id, 'odobreno', points[prijava._id])}>Submit Points</button>
+              <button onClick={() => handleStatusUpdate(prijava._id, 'odobreno', points[prijava._id])}>
+                Odobreno
+              </button>
+              <button onClick={() => handleStatusUpdate(prijava._id, 'odbijeno', points[prijava._id])}>
+                Odbijeno
+              </button>
             </>
           ) : (
             <>
-              <button onClick={() => setShowPointsInput({ ...showPointsInput, [prijava._id]: true })}>odobreno</button>
-              <button onClick={() => handleStatusUpdate(prijava._id, 'odbijeno')}>odbijeno</button>
+              <button onClick={() => setShowPointsInput({ ...showPointsInput, [prijava._id]: true })}>
+                Unesi bodove
+              </button>
             </>
           )}
+
+
         </div>
       </div>
     ));

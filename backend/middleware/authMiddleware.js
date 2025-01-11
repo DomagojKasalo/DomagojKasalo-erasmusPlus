@@ -30,6 +30,8 @@ const protect = async (req, res, next) => {
 // Middleware za ograničavanje pristupa prema ulozi
 const restrictTo = (...uloge) => {
   return (req, res, next) => {
+    // console.log(req.korisnik.uloga)
+    // console.log(uloge)
     if (!uloge.includes(req.korisnik.uloga)) {
       return res.status(403).json({ message: 'Nemate ovlasti za ovu akciju.' });
     }

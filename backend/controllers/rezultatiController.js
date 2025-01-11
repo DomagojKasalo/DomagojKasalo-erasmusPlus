@@ -21,8 +21,10 @@ const createRezultat = async (req, res) => {
 
 // Dohvat svih rezultata
 const getAllRezultati = async (req, res) => {
+  //console.log("evo ga")
   try {
     const rezultati = await Rezultati.find().populate('id_prijave');
+    console.log(rezultati)
     res.status(200).json(rezultati);
   } catch (error) {
     res.status(500).json({ error: error.message });

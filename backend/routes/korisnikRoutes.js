@@ -63,7 +63,7 @@ router.delete('/me', protect, deleteMyProfile);
 
 // Administratorske rute
 // Ruta za pregled svih korisnika
-router.get('/', protect, restrictTo('admin'), getAllUsers);
+router.get('/', protect, restrictTo('admin','student','nastavnik'), getAllUsers);
 
 // Ruta za ažuriranje korisnika po ID-u
 router.put('/:id', protect, restrictTo('admin'), updateUser);

@@ -18,6 +18,7 @@ const CompetitionResult = () => {
         const resultsResponse = await axios.get('http://localhost:5000/api/rezultati', {
           headers: { Authorization: `Bearer ${token}` },
         });
+       // console.log(resultsResponse.data)
         setResults(resultsResponse.data);
 
         // Dohvati korisnike
