@@ -10,11 +10,11 @@ const {
 } = require('../controllers/prijaveController');
 const Natjecaji = require('../models/Natjecaji');
 
-// Kreiranje prijave (samo student)
+// Kreiranje prijave (samo student i nastavnik )
 router.post(
   '/',
   protect,
-  restrictTo('student'),
+  restrictTo('student','nastavnik'),
   [
     check('natjecaj_id').notEmpty().withMessage('Natječaj ID je obavezan.'),
     body('natjecaj_id').custom(async (value) => {

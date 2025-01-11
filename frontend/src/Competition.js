@@ -191,12 +191,14 @@ const Competition = () => {
     return matchesSearchQuery && matchesDate && matchesStatus;
   });
   
-  const handleApplyForCompetition = async (natjecaj_id) => {
+  const handleApplyForCompetition = async (natjecaj_id,vrsta_natjecaja) => {
     try {
       console.log("Natjecaj ID koji šaljete:", natjecaj_id);
       const response = await axios.post(
         `http://localhost:5000/api/prijave/`,  // promijenjena putanja
-        { natjecaj_id: natjecaj_id },         // šaljemo natjecaj_id
+        { natjecaj_id: natjecaj_id,
+          vrsta_natjecaja: vrsta_natjecaja
+         },         // šaljemo natjecaj_id
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -207,9 +209,11 @@ const Competition = () => {
     } catch (error) {
       console.error('Greška pri prijavi na natječaj:', error);
       if (error.response) {
-        console.error('Podaci odgovora:', error.response.data);  // Ovdje ispisujemo odgovor s greškom
-      }
+        console.error('Podaci odgovora:', error.response.data.message);  // Ovdje ispisujemo odgovor s greškom
+        alert(error.response.data.message)
+      }else{
       alert('Greška pri prijavi na natječaj.');
+      }
     }
   };
   
@@ -311,7 +315,7 @@ const Competition = () => {
 
             {userRole === 'student' && (
               competition.status_natjecaja === 'otvoren' && applicationDeadline >= currentDate ? (
-                <button onClick={() => handleApplyForCompetition(competition._id)}>
+                <button onClick={() => handleApplyForCompetition(competition._id,competition.vrsta_natjecaja)}>
                   Prijava
                 </button>
               ) : (

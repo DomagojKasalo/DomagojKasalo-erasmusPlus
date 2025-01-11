@@ -9,18 +9,36 @@ const createPrijava = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { natjecaj_id } = req.body;
+  const { natjecaj_id,vrsta_natjecaja } = req.body;
 
   try {
+    // Provjera da li već postoji prijava ovog korisnika za ovaj natječaj
+    // const korisnikUloga = req.korisnik.uloga;
+    // if(vrsta_natjecaja==='nastavnik' && korisnikUloga=='student'){
+    //   return res.status(400).json({ message: 'Ne možete se prijaviti na natjecaj za nastavnika' });
+    // }
+    const existingPrijava = await Prijave.findOne({
+      korisnik_id: req.korisnik._id, // ID prijavljenog korisnika
+      natjecaj_id,
+    });
+
+    if (existingPrijava) {
+      return res.status(400).json({ message: 'Već ste se prijavili na ovaj natječaj.' });
+    }
+    
+
+    // Kreiranje nove prijave
     const prijava = await Prijave.create({
       korisnik_id: req.korisnik._id, // ID prijavljenog korisnika
-      natjecaj_id
+      natjecaj_id,
     });
+
     res.status(201).json(prijava);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Dohvat svih prijava
 const getAllPrijave = async (req, res) => {
