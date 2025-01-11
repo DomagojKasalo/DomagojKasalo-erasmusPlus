@@ -101,21 +101,20 @@ const LoginSignup = ({ onLogin }) => {
   };
 
   const handleLogin = async () => {
-    let validationErrors=[];
-
-
+    let errors = [];
+  
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
-      validationErrors.push("Unesite ispravan email.");
+      errors.push("Unesite ispravan email.");
     }
     if (formData.lozinka.length < 6) {
-      validationErrors.push("Lozinka mora imati najmanje 6 znakova.");
+      errors.push("Lozinka mora imati najmanje 6 znakova.");
     }
-
-    if (validationErrors.length > 0) {
-      setError(validationErrors.join(", "));
+  
+    if (errors.length > 0) {
+      setError(errors.join(" "));
       return;
     }
-    
+  
     try {
       const response = await fetch("http://localhost:5000/api/users/login", {
         method: "POST",
@@ -127,7 +126,7 @@ const LoginSignup = ({ onLogin }) => {
           lozinka: formData.lozinka,
         }),
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         const user = {
@@ -150,7 +149,8 @@ const LoginSignup = ({ onLogin }) => {
       setError("Nešto je krivo!");
     }
   };
-
+  
+  
   return (
     <>
       {action === "Login" && (
