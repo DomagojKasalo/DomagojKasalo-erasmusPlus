@@ -55,7 +55,7 @@ const Schools = () => {
         alert('Sveučilište je uspješno obrisano.');
       } catch (error) {
         console.error('Error deleting university:', error);
-        alert('Error deleting university.');
+        alert('Greška brisanja sveučilišta.');
       }
     }
   };
@@ -70,7 +70,7 @@ const Schools = () => {
       alert('Sveučilište je uspješno dodano.');
     } catch (error) {
       console.error('Error adding university:', error);
-      alert('Error adding university.');
+      alert('Greška dodavanja sveučilišta.');
     }
   };
 
@@ -86,7 +86,7 @@ const Schools = () => {
       alert('Sveučilište je uspješno ažurirano.');
     } catch (error) {
       console.error('Error updating university:', error);
-      alert('Error updating university.');
+      alert('Greška ažuriranja sveučilišta.');
     }
   };
 

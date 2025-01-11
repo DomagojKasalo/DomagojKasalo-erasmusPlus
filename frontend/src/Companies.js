@@ -54,7 +54,7 @@ const Companies = () => {
         alert('Tvrtka je uspješno obrisana.');
       } catch (error) {
         console.error('Error deleting company:', error);
-        alert('Error deleting company.');
+        alert('Greška brisanja tvrtka.');
       }
     }
   };
@@ -69,7 +69,7 @@ const Companies = () => {
       alert('Tvrtka je uspješno dodana.');
     } catch (error) {
       console.error('Error adding company:', error);
-      alert('Error adding company.');
+      alert('Greška dodavanja tvrtke.');
     }
   };
 
@@ -85,7 +85,7 @@ const Companies = () => {
       alert('Tvrtka je uspješno ažurirana.');
     } catch (error) {
       console.error('Error updating company:', error);
-      alert('Error updating company.');
+      alert('Greška ažuriranja tvrtke.');
     }
   };
 

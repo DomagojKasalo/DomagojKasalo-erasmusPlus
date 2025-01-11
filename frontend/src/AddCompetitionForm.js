@@ -65,7 +65,7 @@ const AddCompetitionForm = ({ setShowForm, onAddCompetition }) => {
       // Close the form after successful submission
       setShowForm(false);
     } catch (error) {
-      console.error('Error creating competition:', error);
+      console.error('Greška kreiranja natječaja:', error);
     }
   };
 
