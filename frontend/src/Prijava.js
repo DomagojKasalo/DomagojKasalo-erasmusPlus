@@ -136,8 +136,14 @@ const Prijava = () => {
         {prijava.natjecaj_id ? (
           <>
             <h3>{prijava.natjecaj_id.naziv}</h3>
-            <p><strong>Student:</strong> {prijava.korisnik_id.ime} {prijava.korisnik_id.prezime}</p>
-            <p><strong>Email:</strong> {prijava.korisnik_id.email}</p>
+            {prijava.korisnik_id ? (
+              <>
+                <p><strong>Student:</strong> {prijava.korisnik_id.ime} {prijava.korisnik_id.prezime}</p>
+                <p><strong>Email:</strong> {prijava.korisnik_id.email}</p>
+              </>
+            ) : (
+              <p>Student data not available</p> // Or display a default value
+            )}
             <p><strong>Status:</strong> {prijava.status_prijave}</p>
             <p><strong>Bodovi:</strong> {prijava.bodovi}</p> {/* Display points */}
           </>
@@ -167,12 +173,11 @@ const Prijava = () => {
               </button>
             </>
           )}
-
-
         </div>
       </div>
     ));
   };
+  
 
   return (
     <div className="prijava-section">
