@@ -1,92 +1,214 @@
+/* Globalni stilovi */
+body {
+  font-family: 'Poppins', sans-serif; /* Moderniji font */
+  background: linear-gradient(135deg, #f0f4f8, #d9e4f5); /* Suptilna gradijentna pozadina */
+  color: #333; /* Taman tekst za bolji kontrast */
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
 
+.container {
+  padding: 30px;
+}
+
+/* Stilovi za korisničku stranicu */
 .users-page {
-    padding: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #F5F5F5;
-    ;
-  }
-  h1 {
-    font-size: 24px; /* Promenite veličinu fonta */
-    font-weight: bold; /* Podebljan tekst */
-    text-align: center; /* Poravnanje naslova na sredinu */
-    margin-bottom: 20px; /* Razmak ispod naslova */
-    color: #333; /* Boja teksta */
-    text-transform: uppercase; /* Sva slova velika */
-    letter-spacing: 2px; /* Razmak između slova */
-    color: #ddd;
-  }
-  
-  
-  table, th, td {
-    border: 1px solid #ddd;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #ddd;
-  }
-  
-  button:active {
-    background-color: #ccc;
-  }
-  
-  .edit-section {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    width: 400px;
-  }
-  
-  .edit-section form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .edit-section form div {
-    margin-bottom: 10px;
-  }
-  
-  .edit-section form label {
-    font-weight: bold;
-  }
-  
-  .edit-section form input {
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .edit-section form button {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-  }
-  
-  .edit-section form button[type="button"] {
-    background-color: #f44336;
-  }
-  
-  
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.9); /* "Glassmorphism" efekat */
+  backdrop-filter: blur(12px); /* Zamagljivanje pozadine */
+  border-radius: 20px; /* Više zaobljeni rubovi */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Jača, mekša sjena */
+  margin-bottom: 40px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.users-page:hover {
+  box-shadow: 0 8px 50px rgba(0, 0, 0, 0.3); /* Jača sjena na hover */
+}
+
+h1 {
+  font-size: 2.4rem; /* Veći font za naslov */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50; /* Tamniji tonovi za tekst */
+  text-transform: uppercase;
+  letter-spacing: 3px; /* Veći razmak između slova */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Suptilni efekt sjene na tekstu */
+}
+
+/* Tablica */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 20px; /* Veći razmak između redova */
+  margin-top: 30px;
+}
+
+table, th, td {
+  border: none;
+}
+
+th, td {
+  padding: 18px 25px;
+  text-align: left;
+  font-size: 16px; /* Veća veličina fonta */
+  border-radius: 12px; /* Zaobljeni rubovi ćelija */
+}
+
+th {
+  background: linear-gradient(135deg, #007bff, #0056b3); /* Atraktivna gradijentna pozadina */
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 20px; /* Smanjeni padding za manju visinu */
+
+}
+
+td {
+  background: #ffffff; /* Bijela pozadina za ćelije */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Suptilna sjena ispod ćelija */
+  transition: transform 0.2s ease-in-out; /* Animacija za hover na ćelijama */
+}
+
+td:hover {
+  transform: scale(1.02); /* Lagano povećanje pri hoveru */
+}
+
+tr:nth-child(even) td {
+  background-color: #f7f7f7; /* Alternativna pozadina za parne redove */
+}
+
+tr:hover td {
+  background-color: #f1f1f1; /* Efekt hover na redovima */
+}
+
+/* Stilovi za gumb */
+button {
+  margin-right: 10px;
+  padding: 15px 25px; /* Veći padding za veći dojam */
+  cursor: pointer;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 12px; /* Više zaobljeni gumbi */
+  font-size: 16px; /* Veći tekst */
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05); /* Lagano povećanje kod hovera */
+  background: linear-gradient(135deg, #0056b3, #003f8c);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Dodana sjena na hover */
+}
+
+button:active {
+  transform: scale(0.95); /* Efekt pritiska */
+  background: linear-gradient(135deg, #00408f, #002b67);
+}
+
+/* Stilovi za sekciju uređivanja */
+.edit-section {
+  margin-top: 30px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.85); /* "Glassmorphism" efekat */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.edit-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* Razmak između elemenata */
+}
+
+.edit-section form label {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.edit-section form input {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-section form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.edit-section form button {
+  padding: 15px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: white;
+  border-radius: 10px;
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-section form button[type="button"] {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+.edit-section form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Dodavanje sjene na hover */
+}
+
+.edit-section form button[type="button"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Stil za greške */
 .error {
-  color: red;
-  font-size: 0.9em;
+  color: #e74c3c; /* Bogatija crvena boja */
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* Responzivnost */
+@media (max-width: 768px) {
+  .users-page {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .edit-section {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .edit-section form input {
+    font-size: 14px;
+  }
+
+  .edit-section form button {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  table th, table td {
+    font-size: 14px;
+  }
 }

@@ -1,155 +1,185 @@
+/* Globalni stilovi */
+body {
+  font-family: 'Poppins', sans-serif; /* Elegantan i modern font */
+  margin: 0;
+  padding: 0;
+  color: #333;
+  line-height: 1.6;
+  box-sizing: border-box;
+  background: #f5f5f5; /* Svijetla pozadina za bolji kontrast */
+}
+
+/* Sekcija rezultata natjecanja */
 .competition-result {
-    margin: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .competition-result h1 {
-    font-size: 2rem;
-    text-align: center;
-    color: #ccc;
-  }
-  
-  .search-input {
-    width: 100%;
-    max-width: 400px;
-    padding: 8px;
-    margin: 10px auto;
-    display: block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .results-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .results-table th,
-  .results-table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .results-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
-  .results-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .results-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  @media (max-width: 768px) {
-    .results-table {
-      font-size: 0.9rem;
-    }
-  
-    .search-input {
-      width: 90%;
-    }
-  }
-  .results-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .results-table th, .results-table td {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  .results-table th {
-    background-color: #f2f2f2;
+  padding: 50px;
+  background: rgba(255, 255, 255, 0.85); /* Poluprozirna bijela pozadina */
+  backdrop-filter: blur(15px); /* Suptilno zamagljivanje pozadine */
+  border-radius: 25px; /* Zaobljeni rubovi */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Povećana sjena za dubinu */
+  max-width: 1200px;
+  margin: 50px auto;
+  transition: box-shadow 0.4s ease-in-out, transform 0.3s ease;
+}
+
+.competition-result:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25); /* Veća sjena na hover */
+  transform: translateY(-5px); /* Efekt podizanja */
+}
+
+.competition-result h1 {
+  font-size: 3rem;
+  text-align: center;
+  color: #007bff; /* Elegantna plava za naslove */
+  text-transform: uppercase;
+  letter-spacing: 5px; /* Veći razmak između slova */
+  margin-bottom: 40px;
+  font-weight: 800;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); /* Sjenčanje za dubinu */
+  transition: color 0.3s ease;
+}
+
+/* Polje za pretragu */
+.search-input {
+  width: 100%;
+  max-width: 650px;
+  padding: 20px;
+  margin: 30px auto;
+  display: block;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  background: #f5f5f5;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.4);
+  outline: none;
+  background: #ffffff; /* Promjena pozadine na focus */
+}
+
+/* Tablica rezultata */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.15); /* Jača sjena za tablicu */
+}
+
+.results-table th,
+.results-table td {
+  padding: 20px 30px;
+  text-align: left;
+  border: 1px solid #ddd;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.results-table th {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Proširenje razmaka u naslovima */
+  padding: 5px 20px; /* Smanjeni padding za manju visinu */
+
+}
+
+.results-table td {
+  background-color: #fafafa;
+}
+
+.results-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.results-table tr:hover {
+  background-color: #f1f1f1;
+  transform: translateY(-2px); /* Suptilno podizanje na hover */
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Sekcija za filtriranje */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  transition: all 0.3s ease-in-out;
+}
+
+.filter-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 350px;
+  width: 100%;
+}
+
+.filter-dropdown label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.filter-dropdown select {
+  padding: 16px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  background: #ffffff;
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s ease;
+}
+
+.filter-dropdown select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+.filter-dropdown select option {
+  color: #333;
+  background-color: white;
+}
+
+/* Poruka */
+p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Responzivnost */
+@media (max-width: 768px) {
+  .filter-section {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .competition-results {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .filter-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 0 10%;
-  }
-  
   .filter-dropdown {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
+    max-width: 90%;
   }
-  
-  .filter-dropdown label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .filter-dropdown select {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-  }
-  
-  .results-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
+
   .results-table th, .results-table td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
+    font-size: 1rem;
   }
-  
-  .results-table th {
-    background-color: #f2f2f2;
+
+  .search-input {
+    max-width: 90%;
+    padding: 18px;
   }
-  
-  .results-table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  p {
-    text-align: center;
-    font-size: 16px;
-    color: white;
-  }
-  .filter-dropdown label {
-    color: white; /* Obojava tekst labela u bijelo */
-  }
-  
-  .filter-dropdown select {
-    background-color: white;  /* Postavlja pozadinsku boju na tamnu */
-    color: #ccc; /* Obojava tekst unutar selektora u bijelo */
-    border: none;
-    padding: 5px;
-    font-size: 16px;
-  }
-  
-  .filter-dropdown select option {
-    color: #ccc; /* Obojava tekst unutar opcija u bijelu */
-    background-color: grey;  /* Postavlja pozadinsku boju opcija na tamnu */
-  }
-  
-  
-  
-  
-  
+}

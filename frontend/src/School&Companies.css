@@ -1,13 +1,14 @@
-
 /* ============================= */
-/* Sekcija Sveučilišta */
+/* Sekcija za tvrtke i Sveučilišta */
 /* ============================= */
 
 .-section {
- /* margin-top: -70px;*/
   position: relative;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
+  padding: 30px;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(145deg, #e0e5ec, #ffffff);
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px #ffffff;
 }
 
 /* Header sa naslovom i akcijama */
@@ -15,51 +16,53 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  color: #333;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  background-color: #f1f1f1;
+  padding: 15px 30px;
+  color: #fff;
+  background: linear-gradient(145deg, #6a11cb, #2575fc);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .-header h1 {
-  font-size: 1.8em;
+  font-size: 2rem;
   margin: 0;
+  letter-spacing: 1px;
 }
 
-/* Lista Sveučilišta */
+/* Lista tvrtki i Sveučilišta (Vertikalni raspored) */
 .-list {
   margin-top: 30px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex-direction: column; /* Prikazivanje kartica jedan ispod drugog */
+  gap: 20px;
+  justify-content: flex-start; /* Poravnanje na početak */
 }
 
 .-item {
   border: 1px solid #ddd;
   padding: 20px;
   width: 100%;
-  max-width: 550px;
+  max-width: 800px; /* Maksimalna širina kartice */
   margin-bottom: 15px;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, background-color 0.3s ease;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px #ffffff; /* Sjena oko kartice */
+  transition: transform 0.3s, background-color 0.3s ease; /* Efekt na hover */
 }
 
 .-item:hover {
-  transform: scale(1.03);
-  background-color: #e8f5e9;
+  transform: translateY(-8px); /* Efekt podizanja kartice */
+  background-color: #e8f5e9; /* Svjetlija pozadina kad je hover */
 }
 
 .-item h2 {
-  font-size: 1.6em;
+  font-size: 1.6rem;
   color: #333;
+  margin-bottom: 10px;
 }
 
 .-item p {
-  margin: 8px 0;
+  margin: 5px 0;
   color: #666;
 }
 
@@ -68,15 +71,15 @@
   margin-top: 30px;
   padding: 30px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border-radius: 16px;
+  background: #f9f9f9;
   width: 100%;
   max-width: 650px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px #ffffff;
 }
 
 .add-form h2 {
-  font-size: 1.4em;
+  font-size: 1.6rem;
   margin-bottom: 20px;
   color: #333;
 }
@@ -95,53 +98,59 @@
   width: 100%;
   padding: 14px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 16px;
   font-size: 16px;
   color: #333;
-  transition: border 0.3s;
+  background: #e0e5ec;
+  transition: border 0.3s, background-color 0.3s;
 }
 
 .add-form input:focus {
   border-color: #007BFF;
+  background-color: #ffffff;
   outline: none;
 }
 
 /* Dugme za osvježavanje liste */
 .refresh-btn {
   margin-top: 10px;
-  background-color: #007BFF;
+  background: linear-gradient(145deg, #2dce89, #2abf71);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 8px;
+  border-radius: 16px;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .refresh-btn:hover {
-  background-color: #0056b3;
+  background: linear-gradient(145deg, #2abf71, #249d5d);
+  transform: translateY(-4px);
 }
-/* Dugme za dodavanje natječaja */
+
+/* Dugme za dodavanje Sveučilišta */
 .add-btn {
   text-align: center;
   margin-top: 20px;
 }
 
 .add-btn button {
-  background-color: #007BFF;
+  background: linear-gradient(145deg, #2575fc);
   color: white;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border: none;
+  border-radius: 16px;
+  font-size: 1.2rem;
   cursor: pointer;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  transition: 0.3s, transform 0.3s;
 }
 
 .add-btn button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(145deg, #2575fc);
+  transform: translateY(-4px);
 }
+
 /* Edit sekcija sa vertikalnim rasporedom */
 .edit-section-vertical {
   display: flex;
@@ -151,11 +160,11 @@
   margin-top: 30px;
   padding: 30px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border-radius: 16px;
+  background: #f9f9f9;
   width: 100%;
   max-width: 650px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px #ffffff;
 }
 
 /* Forma za unos podataka sa vertikalnim rasporedom */

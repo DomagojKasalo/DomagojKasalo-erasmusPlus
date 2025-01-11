@@ -1,20 +1,37 @@
+/* Globalne postavke */
 .home-container {
-  padding: 20px;
+  padding: 30px;
   background-color: #f0f0f5; /* Lagano siva za kontrast */
-  font-family: Arial, sans-serif;
-  color: #000000; /* Crna boja za tekst */
+  font-family: 'Poppins', Arial, sans-serif; /* Moderniji font */
+  color: #2c3e50; /* Tamno siva za bolji kontrast */
+  border-radius: 12px; /* Zaokruženi kutovi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Suptilna sjena oko kontejnera */
+  max-width: 1200px;
+  margin: 0 auto; /* Centrirano na ekranu */
 }
 
+/* Naslov u headeru */
 .home-header {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #34495e; /* Tamno siva za kontrast */
+}
+
+/* Sekcija dobrodošlice */
+.welcome-section {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.welcome-section {
-  text-align: center;
-  margin-bottom: 20px;
+.welcome-section h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #2980b9; /* Plava za naglasak */
 }
 
+/* Brze poveznice */
 .quick-links {
   margin: 30px 0;
   text-align: center;
@@ -23,28 +40,42 @@
 .links {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   flex-wrap: wrap;
 }
 
 .link-card {
   display: block;
-  padding: 15px 20px;
-  background-color: #007bff;
-  color: #fff; 
+  padding: 20px 25px;
+  background: linear-gradient(145deg, #007bff, #0056b3); /* Gradient za linkove */
+  color: #fff;
   text-decoration: none;
-  border-radius: 10px;
-  transition: background-color 0.3s, transform 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Suptilna sjena */
+  width: 250px; /* Fiksna širina za kartice */
+  text-align: center;
 }
 
 .link-card:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+  transform: translateY(-6px); /* Lagani pomak gore */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Naglašena sjena na hover */
+  background: linear-gradient(145deg, #0056b3, #003366); /* Tamniji gradient */
 }
 
+.link-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.link-card p {
+  font-size: 1rem;
+  color: #d1d9e6; /* Svijetlo siva za tekst */
+}
+
+/* Najnoviji natječaji */
 .latest-competitions {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .latest-competitions ul {
@@ -53,19 +84,44 @@
 }
 
 .latest-competitions li {
-  margin-bottom: 15px;
-  padding: 15px;
-  background-color: #e9ecef;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Suptilna sjena */
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Suptilna sjena */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.latest-competitions li:hover {
+  transform: translateY(-6px); /* Pomak na hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Povećana sjena */
 }
 
 .latest-competitions h4 {
   margin: 0;
-  color: #007bff; /* Plava za naglasak */
+  font-size: 1.4rem;
+  color: #2980b9; /* Plava za naglasak */
+  font-weight: 600;
 }
 
 .latest-competitions p {
   margin: 5px 0 0;
-  color: #000000; /* Tamno siva za opis */
+  color: #2c3e50; /* Tamno siva za opis */
+  font-size: 1rem;
+}
+
+/* Dodaj animaciju za prijelaz elemenata */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-container {
+  animation: fadeIn 1s ease-out;
 }

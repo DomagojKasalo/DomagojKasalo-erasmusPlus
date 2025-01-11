@@ -10,6 +10,7 @@ import Companies from './Companies';
 import Prijava from './Prijava';
 import CompetitionResult from './CompetitionResult';
 import Home from './Home';
+import './App.css'; // Uvjerite se da je CSS datoteka uključena
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,6 +28,16 @@ const App = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      document.body.classList.remove('login-background', 'signup-background');
+      document.body.classList.add('home-background');
+    } else {
+      document.body.classList.add('login-background');
+      document.body.classList.remove('signup-background');
+    }
+  }, [isAuthenticated]);
 
   return (
     <Router>

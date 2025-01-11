@@ -1,140 +1,178 @@
 /* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7fa;
-  }
-  
-  /* Main Section */
-  .prijava-section {
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Title */
-  .prijava-section h1 {
-    text-align: center;
-    font-size: 32px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Error Messages */
-  .error {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-  }
-  
-  /* Student Options */
-  .student-options {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .competition-item {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .competition-item h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .competition-item p {
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .competition-item button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .competition-item button:disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
-  }
-  
-  /* Admin Options */
-  .admin-options {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .prijava-item {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .prijava-item h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .prijava-item p {
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .prijava-item button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .prijava-item button:nth-child(2) {
-    background-color: #dc3545;
-  }
-  
-  .prijava-item button:hover {
-    background-color: #218838;
-  }
-  
-  .prijava-item button:nth-child(2):hover {
-    background-color: #c82333;
-  }
-  
-  /* Guest Options */
-  .guest-options {
-    text-align: center;
-    font-size: 18px;
-    color: #333;
-    margin-top: 20px;
-  }
-  
-  /* General Button Styling */
-  button {
-    cursor: pointer;
-  }
-  
-  button:focus {
-    outline: none;
-  }
-  
+  font-family: 'Poppins', sans-serif; /* Moderni font */
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fa; /* Svijetla pozadina */
+  color: #333;
+}
+
+/* Main Section */
+.prijava-section {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Duboka sjena za sofisticiraniji izgled */
+  transition: box-shadow 0.3s ease;
+}
+
+.prijava-section:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); /* Intenziviranje sjene na hover */
+}
+
+/* Title */
+.prijava-section h1 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  color: #2c3e50; /* Tamno plava boja za naslov */
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  text-transform: uppercase; /* Povećava ozbiljnost naslova */
+}
+
+/* Error Messages */
+.error {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Student Options */
+.student-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.competition-item {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.competition-item:hover {
+  transform: translateY(-6px); /* Lagano pomicanje na hover */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Suptilna promjena sjene */
+}
+
+.competition-item h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #007bff; /* Plavi naglasci */
+}
+
+.competition-item p {
+  font-size: 16px;
+  color: #555;
+}
+
+.competition-item button {
+  margin-top: 10px;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.competition-item button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.competition-item button:hover {
+  background-color: #0056b3;
+  transform: translateY(-4px); /* Lagano podizanje gumba */
+}
+
+/* Admin Options */
+.admin-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.prijava-item {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prijava-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.prijava-item h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.prijava-item p {
+  font-size: 16px;
+  color: #555;
+}
+
+.prijava-item button {
+  margin-top: 10px;
+  padding: 12px 24px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.prijava-item button:nth-child(2) {
+  background-color: #dc3545;
+}
+
+.prijava-item button:hover {
+  background-color: #218838;
+  transform: translateY(-4px);
+}
+
+.prijava-item button:nth-child(2):hover {
+  background-color: #c82333;
+}
+
+/* Guest Options */
+.guest-options {
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  margin-top: 30px;
+  font-weight: 500;
+}
+
+/* General Button Styling */
+button {
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Hover effects on buttons */
+button:hover {
+  transform: translateY(-4px); /* Lagani pomak gumba */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Povećanje sjene pri hoveru */
+}

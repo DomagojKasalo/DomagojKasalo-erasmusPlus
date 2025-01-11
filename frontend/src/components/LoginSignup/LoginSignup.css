@@ -1,13 +1,3 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: url('../Assets/img-erasmus.jpg') no-repeat center center;
-    background-size: cover
-}
-
 
 .login-container {
     display: flex;
@@ -25,23 +15,24 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(255, 255, 255, 0.8); 
+    background: rgba(255, 255, 255, 0.7); 
     width: 300px; 
-    padding: 15px; 
+    padding: 10px; 
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     overflow-y: auto; 
     overflow-x: hidden;
-    max-height: 90vh; 
+    max-height: 80vh;
 }
 
 .header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    width: 100%;
+    width: 90%;
     margin-bottom: 15px;
+
+    
 }
 
 .text {
@@ -51,7 +42,7 @@ body {
 }
 
 .underline {
-    width: 60px;
+    width: 100px;
     height: 4px;
     background: #007bff;
     border-radius: 2px;
@@ -128,7 +119,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s, transform 0.2s;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .submit:last-child {
